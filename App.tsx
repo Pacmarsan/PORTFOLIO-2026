@@ -6,6 +6,7 @@ import { PHASES, Phase } from './types';
 import ParticleCanvas from './components/ParticleCanvas';
 import MorphingShape from './components/MorphingShape';
 import TerminalText from './components/TerminalText';
+import PhaseIllustration from './components/PhaseIllustration';
 
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -256,7 +257,11 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="hidden lg:block h-full relative" />
+                <div className="hidden lg:block h-full relative">
+                  <AnimatePresence mode="wait">
+                    <PhaseIllustration key={activePhase.name} activePhase={activePhase} />
+                  </AnimatePresence>
+                </div>
               </div>
             </motion.div>
 
