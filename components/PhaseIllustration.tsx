@@ -1,10 +1,124 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { animate, stagger, utils } from 'animejs';
 import { Phase } from '../types';
 
 interface PhaseIllustrationProps {
   activePhase: Phase;
 }
+
+const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
+  const containerRef = useRef<SVGSVGElement>(null);
+  const animRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const circles = containerRef.current.querySelectorAll('.hero-bubble');
+
+    // Cleanup
+    if (animRef.current && typeof animRef.current.pause === 'function') {
+      animRef.current.pause();
+    }
+
+    try {
+      // Animate bubbles coalescing
+      // @ts-ignore - types for animejs v4 might be tricky with implicit any
+      const animation = animate(circles, {
+        translateX: [() => utils.random(-200, 200), 0],
+        translateY: [() => utils.random(-200, 200), 0],
+        scale: [0, 1.4], // Scale up to overlap
+        opacity: [0, 1],
+        easing: 'easeOutExpo', // Smooth joining
+        duration: 2500,
+        delay: stagger(10, { grid: [12, 12], from: 'center' }), // Stagger from center
+      });
+
+      animRef.current = animation;
+
+      // Chain breathing animation safely
+      if (animation && animation.finished) {
+          animation.finished.then(() => {
+             // @ts-ignore
+             const breathing = animate(circles, {
+                scale: 1.2,
+                direction: 'alternate',
+                loop: true,
+                duration: 2000,
+                easing: 'easeInOutSine',
+                delay: stagger(50, { grid: [12, 12], from: 'center' })
+             });
+             animRef.current = breathing;
+          }).catch((err: any) => {
+             console.warn("Animation interrupted or failed", err);
+          });
+      }
+    } catch (err) {
+      console.error("AnimeJS error:", err);
+    }
+
+    return () => {
+      if (animRef.current && typeof animRef.current.pause === 'function') {
+        animRef.current.pause();
+      }
+    };
+
+  }, []);
+
+  // Generate packed circles for the mask
+  const bubbles = [];
+  const rows = 12;
+  const cols = 12;
+  const spacing = 200 / rows;
+
+  for(let i=0; i < rows; i++) {
+    for(let j=0; j < cols; j++) {
+       bubbles.push(
+         <circle
+           key={`${i}-${j}`}
+           className="hero-bubble"
+           cx={i * spacing}
+           cy={j * spacing}
+           r={spacing * 0.6} // Radius slightly larger than half spacing to overlap
+           fill="white"
+         />
+       );
+    }
+  }
+
+  return (
+    <svg ref={containerRef} viewBox="0 0 200 200" className="w-full h-full p-8" fill="none">
+       <defs>
+         <mask id="hero-mask">
+           {bubbles}
+         </mask>
+       </defs>
+
+       {/* Background circle for context */}
+       <circle cx="100" cy="100" r="95" stroke={color} strokeWidth="0.5" strokeDasharray="4 4" opacity="0.3" />
+
+       {/* The Image Revealed by Bubbles */}
+       <image
+         href="/assets/global-reach-portrait.png"
+         x="10" y="10" width="180" height="180"
+         mask="url(#hero-mask)"
+         preserveAspectRatio="xMidYMid slice"
+         style={{ opacity: 0.9 }}
+       />
+
+       {/* Decorative rings on top */}
+       <motion.circle
+          cx="100" cy="100" r="100"
+          stroke={color}
+          strokeWidth="1"
+          strokeOpacity="0.5"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 1 }}
+       />
+    </svg>
+  );
+};
 
 const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) => {
   const color = activePhase.color;
@@ -12,47 +126,7 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) =>
   const renderIllustration = () => {
     switch (activePhase.name) {
       case 'hero': // Global Reach / Identity
-        return (
-          <svg viewBox="0 0 200 200" className="w-full h-full p-8" fill="none" stroke={color} strokeWidth="1">
-            <motion.circle
-              cx="100" cy="100" r="40"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-            />
-            <motion.circle
-              cx="100" cy="100" r="60"
-              strokeDasharray="4 4"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.path
-              d="M100 20 L100 180 M20 100 L180 100"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.3 }}
-              transition={{ duration: 1 }}
-            />
-            <motion.circle
-              cx="100" cy="100" r="80"
-              strokeOpacity="0.2"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            {/* Satellite nodes */}
-            {[0, 72, 144, 216, 288].map((angle, i) => (
-              <motion.circle
-                key={i}
-                cx={100 + 60 * Math.cos((angle * Math.PI) / 180)}
-                cy={100 + 60 * Math.sin((angle * Math.PI) / 180)}
-                r="3"
-                fill={color}
-                stroke="none"
-                animate={{ scale: [0, 1] }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-              />
-            ))}
-          </svg>
-        );
+        return <HeroIllustration color={color} />;
 
       case 'worlds': // Manga & Story IP
         return (
