@@ -80,10 +80,8 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
   const rows = 12;
   const cols = 12;
   const spacing = 200 / rows;
-  // Make blocks slightly smaller than spacing to have gaps? Or flush?
-  // "Building blocks" might imply tight fit or gaps. Let's do flush for image clarity or small gap.
-  // Gap = 1px
-  const size = spacing - 1;
+  // Make blocks slightly larger than spacing to eliminate subpixel gaps
+  const size = spacing + 0.5;
 
   for(let i=0; i < rows; i++) {
     for(let j=0; j < cols; j++) {
