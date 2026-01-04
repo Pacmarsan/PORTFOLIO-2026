@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #00f5ff;
+  --accent-glow: rgba(0, 245, 255, 0.4);
+}
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #050505;
+  color: #ffffff;
+  margin: 0;
+  overflow-x: hidden;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+canvas {
+  pointer-events: none;
+}
+.glow-text {
+  text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+}
+.hud-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hud-bracket-tl { border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); width: 15px; height: 15px; position: absolute; top: -2px; left: -2px; }
+.hud-bracket-tr { border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); width: 15px; height: 15px; position: absolute; top: -2px; right: -2px; }
+.hud-bracket-bl { border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); width: 15px; height: 15px; position: absolute; bottom: -2px; left: -2px; }
+.hud-bracket-br { border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); width: 15px; height: 15px; position: absolute; bottom: -2px; right: -2px; }
+
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  animation: scan 8s linear infinite;
+}
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+.dot-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
