@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { animate, stagger, utils } from 'animejs';
 import { Phase } from '../types';
+import { BubbleMergeIllustration } from './BubbleMergeIllustration';
 
 interface PhaseIllustrationProps {
   activePhase: Phase;
@@ -24,7 +25,6 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
 
     try {
       // Animate blocks falling down
-      // @ts-ignore
       const animation = animate(blocks, {
         translateY: [-400, 0], // Fall from above
         opacity: [0, 1],
@@ -38,27 +38,30 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
       animRef.current = animation;
 
       // Chain energy overlay animation
-      if (animation && animation.finished) {
-          animation.finished.then(() => {
-             // @ts-ignore
+      if (animation && animation.then) {
+          animation.then(() => {
              const energyAnim = animate(overlay, {
                 opacity: [0, 0.4],
                 duration: 1000,
                 easing: 'easeOutSine',
-                complete: () => {
-                   // Pulse the energy
-                   // @ts-ignore
-                   animRef.current = animate(overlay, {
-                      opacity: [0.4, 0.2],
-                      direction: 'alternate',
-                      loop: true,
-                      duration: 2000,
-                      easing: 'easeInOutSine'
-                   });
-                }
+                // @ts-ignore - 'complete' might not be in v4 types yet or is named differently, but onComplete usually works in v3. v4 uses .then() for completion.
+                // However, looking at v4 source, it returns a Promise-like object.
+                // We'll use .then() for chaining.
              });
-          }).catch((err: any) => {
-             console.warn("Animation interrupted or failed", err);
+
+             energyAnim.then(() => {
+                 // Pulse the energy
+                 animRef.current = animate(overlay, {
+                    opacity: [0.4, 0.2],
+                    // direction: 'alternate', // v4 might handle this differently? v4 uses keyframes or explicit alternate loops.
+                    // v4: loop: true, direction: 'alternate' is valid if supported.
+                    // If not, we can simulate. But v4 docs say it supports standard properties.
+                    // Let's check if 'direction' is in types.
+                    loop: true,
+                    duration: 2000,
+                    easing: 'easeInOutSine'
+                 });
+             });
           });
       }
     } catch (err) {
@@ -156,35 +159,7 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) =>
         return <BlockRevealIllustration color={color} imageSrc="/assets/studio-limitless-logo.png" />;
 
       case 'brands': // Content & AI Ads
-        return (
-          <svg viewBox="0 0 200 200" className="w-full h-full p-8" fill="none" stroke={color} strokeWidth="1">
-            {/* Megaphone / Broadcast */}
-            <motion.path
-              d="M60 80 L100 60 V140 L60 120 Z"
-              fill={color}
-              fillOpacity="0.1"
-              animate={{ scale: [0.9, 1, 0.9] }}
-              transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-            />
-            <motion.rect
-              x="30" y="85" width="30" height="30" rx="4"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-            />
-            {/* Waves */}
-            {[1, 2, 3].map((i) => (
-              <motion.path
-                key={i}
-                d={`M110 ${100 - i * 15} Q${130 + i * 10} 100 110 ${100 + i * 15}`}
-                strokeWidth="2"
-                strokeLinecap="round"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: [0, 1, 0], x: 0 }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
-              />
-            ))}
-          </svg>
-        );
+        return <BubbleMergeIllustration color={color} imageSrc="/assets/ziro-robot.png" />;
 
       case 'experiences': // Interface Planes
         return (

@@ -48,7 +48,7 @@ const Stage: React.FC<StageProps> = ({ config, isPlaying, onFinished }) => {
           activeAnimationsRef.current.push(animation);
           
           // Wait for this step to complete before moving to the next (mimics timeline)
-          await animation.finished;
+          await animation;
         }
         
         if (!isCancelledRef.current) {
