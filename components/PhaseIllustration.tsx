@@ -124,13 +124,15 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
          style={{ opacity: 0.9 }}
        />
 
-       {/* Energy Hue Overlay */}
+       {/* Energy Hue Border - Changed from fill to stroke/glow based on user feedback */}
        <rect
           className="energy-overlay"
           x="10" y="10" width="180" height="180"
-          fill={color}
+          fill="none"
+          stroke={color}
+          strokeWidth="3"
           mask={`url(#${maskId})`}
-          style={{ opacity: 0, mixBlendMode: 'screen' }}
+          style={{ opacity: 0, filter: `drop-shadow(0 0 5px ${color})` }}
        />
 
        {/* Decorative rings on top */}
