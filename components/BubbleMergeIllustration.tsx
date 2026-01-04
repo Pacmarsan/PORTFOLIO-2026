@@ -109,16 +109,6 @@ export const BubbleMergeIllustration: React.FC<BubbleMergeProps> = ({ imageSrc, 
          style={{ opacity: 0.9 }} //, filter: 'url(#goo)' }} // Gooey filter on image might be weird, applied on mask is better but mask is invisible.
        />
 
-       {/* Edge Glow Border */}
-       <rect
-          x="0" y="0" width="200" height="200"
-          fill="none"
-          stroke={color}
-          strokeWidth="3"
-          mask={`url(#${maskId})`}
-          style={{ filter: `drop-shadow(0 0 5px ${color})`, opacity: 0.5 }}
-       />
-
        {/* Optional: Add some floating bubbles on top for depth */}
        <motion.circle
          cx="50" cy="50" r="5" fill={color} opacity="0.5"

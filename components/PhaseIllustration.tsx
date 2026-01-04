@@ -16,7 +16,6 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
     if (!containerRef.current) return;
 
     const blocks = containerRef.current.querySelectorAll('.reveal-block');
-    const overlay = containerRef.current.querySelector('.energy-overlay');
 
     // Cleanup
     if (animRef.current && typeof animRef.current.pause === 'function') {
@@ -36,34 +35,6 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
       });
 
       animRef.current = animation;
-
-      // Chain energy overlay animation
-      if (animation && animation.then) {
-          animation.then(() => {
-             const energyAnim = animate(overlay, {
-                opacity: [0, 0.4],
-                duration: 1000,
-                easing: 'easeOutSine',
-                // @ts-ignore - 'complete' might not be in v4 types yet or is named differently, but onComplete usually works in v3. v4 uses .then() for completion.
-                // However, looking at v4 source, it returns a Promise-like object.
-                // We'll use .then() for chaining.
-             });
-
-             energyAnim.then(() => {
-                 // Pulse the energy
-                 animRef.current = animate(overlay, {
-                    opacity: [0.4, 0.2],
-                    // direction: 'alternate', // v4 might handle this differently? v4 uses keyframes or explicit alternate loops.
-                    // v4: loop: true, direction: 'alternate' is valid if supported.
-                    // If not, we can simulate. But v4 docs say it supports standard properties.
-                    // Let's check if 'direction' is in types.
-                    loop: true,
-                    duration: 2000,
-                    easing: 'easeInOutSine'
-                 });
-             });
-          });
-      }
     } catch (err) {
       console.error("AnimeJS error:", err);
     }
@@ -122,17 +93,6 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
          mask={`url(#${maskId})`}
          preserveAspectRatio="xMidYMid slice"
          style={{ opacity: 0.9 }}
-       />
-
-       {/* Energy Hue Border - Changed from fill to stroke/glow based on user feedback */}
-       <rect
-          className="energy-overlay"
-          x="10" y="10" width="180" height="180"
-          fill="none"
-          stroke={color}
-          strokeWidth="3"
-          mask={`url(#${maskId})`}
-          style={{ opacity: 0, filter: `drop-shadow(0 0 5px ${color})` }}
        />
 
        {/* Decorative rings on top */}
