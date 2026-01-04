@@ -14,7 +14,8 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const circles = containerRef.current.querySelectorAll('.hero-bubble');
+    const blocks = containerRef.current.querySelectorAll('.hero-block');
+    const overlay = containerRef.current.querySelector('.energy-overlay');
 
     // Cleanup
     if (animRef.current && typeof animRef.current.pause === 'function') {
@@ -22,35 +23,42 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
     }
 
     try {
-      // Animate bubbles coalescing
-      // @ts-ignore - types for animejs v4 might be tricky with implicit any
-      const animation = animate(circles, {
-        translateX: [() => utils.random(-200, 200), 0],
-        translateY: [() => utils.random(-200, 200), 0],
-        scale: [0, 1.4], // Scale up to overlap
+      // Animate blocks falling down
+      // @ts-ignore
+      const animation = animate(blocks, {
+        translateY: [-400, 0], // Fall from above
         opacity: [0, 1],
-        easing: 'easeOutExpo', // Smooth joining
-        duration: 2500,
-        // Using 'center' without grid makes it ripple based on index distance from the middle element
-        // This feels more organic than row-by-row
-        delay: stagger(20, { from: 'center' }),
+        scale: [0.5, 1],
+        easing: 'easeOutBounce', // Bounce effect
+        duration: 2000,
+        // Stagger from top-left to bottom-right (grid effect)
+        // Since we build the grid row by row, standard stagger works like "typewriter" fill
+        delay: stagger(30, { grid: [12, 12], from: 'first' }),
       });
 
       animRef.current = animation;
 
-      // Chain breathing animation safely
+      // Chain energy overlay animation
       if (animation && animation.finished) {
           animation.finished.then(() => {
              // @ts-ignore
-             const breathing = animate(circles, {
-                scale: 1.2,
-                direction: 'alternate',
-                loop: true,
-                duration: 2000,
-                easing: 'easeInOutSine',
-                delay: stagger(50, { from: 'center' })
+             const energyAnim = animate(overlay, {
+                opacity: [0, 0.4],
+                duration: 1000,
+                easing: 'easeOutSine',
+                complete: () => {
+                   // Pulse the energy
+                   // @ts-ignore
+                   animRef.current = animate(overlay, {
+                      opacity: [0.4, 0.2],
+                      direction: 'alternate',
+                      loop: true,
+                      duration: 2000,
+                      easing: 'easeInOutSine'
+                   });
+                }
              });
-             animRef.current = breathing;
+             // We can track this if needed, but the main ref handles cleanup via pause if it supports it
           }).catch((err: any) => {
              console.warn("Animation interrupted or failed", err);
           });
@@ -67,27 +75,26 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
 
   }, []);
 
-  // Generate packed circles for the mask with offset for hexagonal look
-  const bubbles = [];
+  // Generate grid of blocks (squares) for the mask
+  const blocks = [];
   const rows = 12;
   const cols = 12;
   const spacing = 200 / rows;
+  // Make blocks slightly smaller than spacing to have gaps? Or flush?
+  // "Building blocks" might imply tight fit or gaps. Let's do flush for image clarity or small gap.
+  // Gap = 1px
+  const size = spacing - 1;
 
   for(let i=0; i < rows; i++) {
     for(let j=0; j < cols; j++) {
-       const isOddRow = j % 2 !== 0;
-       const offset = isOddRow ? spacing / 2 : 0;
-       const randomRadius = spacing * 0.5 + (Math.random() * (spacing * 0.3)); // Vary radius 0.5-0.8 spacing
-       const jitterX = (Math.random() - 0.5) * 5; // Slight jitter
-       const jitterY = (Math.random() - 0.5) * 5;
-
-       bubbles.push(
-         <circle
+       blocks.push(
+         <rect
            key={`${i}-${j}`}
-           className="hero-bubble"
-           cx={(i * spacing) + offset + jitterX}
-           cy={(j * spacing) + jitterY}
-           r={randomRadius}
+           className="hero-block"
+           x={j * spacing} // x is column
+           y={i * spacing} // y is row
+           width={size}
+           height={size}
            fill="white"
          />
        );
@@ -98,20 +105,33 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
     <svg ref={containerRef} viewBox="0 0 200 200" className="w-full h-full p-8" fill="none">
        <defs>
          <mask id="hero-mask">
-           {bubbles}
+           {blocks}
          </mask>
        </defs>
 
        {/* Background circle for context */}
        <circle cx="100" cy="100" r="95" stroke={color} strokeWidth="0.5" strokeDasharray="4 4" opacity="0.3" />
 
-       {/* The Image Revealed by Bubbles */}
+       {/* The Image Revealed by Blocks */}
        <image
          href="/assets/global-reach-portrait.png"
          x="10" y="10" width="180" height="180"
          mask="url(#hero-mask)"
          preserveAspectRatio="xMidYMid slice"
          style={{ opacity: 0.9 }}
+       />
+
+       {/* Energy Hue Overlay - Masked by the same blocks so it only lights up the image part?
+           Or just a rect on top. If we want it "over it", maybe just a rect.
+           If we want it to respect the blocks, use the mask.
+           Let's use the mask so it looks like the blocks themselves are glowing.
+       */}
+       <rect
+          className="energy-overlay"
+          x="10" y="10" width="180" height="180"
+          fill={color}
+          mask="url(#hero-mask)"
+          style={{ opacity: 0, mixBlendMode: 'screen' }}
        />
 
        {/* Decorative rings on top */}
