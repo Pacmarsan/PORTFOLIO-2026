@@ -7,14 +7,14 @@ interface PhaseIllustrationProps {
   activePhase: Phase;
 }
 
-const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
+const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = ({ color, imageSrc }) => {
   const containerRef = useRef<SVGSVGElement>(null);
   const animRef = useRef<any>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const blocks = containerRef.current.querySelectorAll('.hero-block');
+    const blocks = containerRef.current.querySelectorAll('.reveal-block');
     const overlay = containerRef.current.querySelector('.energy-overlay');
 
     // Cleanup
@@ -32,7 +32,6 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
         easing: 'easeOutBounce', // Bounce effect
         duration: 2000,
         // Stagger from top-left to bottom-right (grid effect)
-        // Since we build the grid row by row, standard stagger works like "typewriter" fill
         delay: stagger(30, { grid: [12, 12], from: 'first' }),
       });
 
@@ -58,7 +57,6 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
                    });
                 }
              });
-             // We can track this if needed, but the main ref handles cleanup via pause if it supports it
           }).catch((err: any) => {
              console.warn("Animation interrupted or failed", err);
           });
@@ -73,7 +71,7 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
       }
     };
 
-  }, []);
+  }, [imageSrc]); // Re-run if image changes
 
   // Generate grid of blocks (squares) for the mask
   const blocks = [];
@@ -88,7 +86,7 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
        blocks.push(
          <rect
            key={`${i}-${j}`}
-           className="hero-block"
+           className="reveal-block"
            x={j * spacing} // x is column
            y={i * spacing} // y is row
            width={size}
@@ -99,10 +97,14 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
     }
   }
 
+  // Create unique IDs for mask based on imageSrc to prevent collisions if multiple instances (though logic prevents that via switch)
+  // Simple hash or just use image filename part
+  const maskId = `mask-${imageSrc.replace(/[^a-z0-9]/gi, '')}`;
+
   return (
     <svg ref={containerRef} viewBox="0 0 200 200" className="w-full h-full p-8" fill="none">
        <defs>
-         <mask id="hero-mask">
+         <mask id={maskId}>
            {blocks}
          </mask>
        </defs>
@@ -112,23 +114,19 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
 
        {/* The Image Revealed by Blocks */}
        <image
-         href="/assets/global-reach-portrait.png"
+         href={imageSrc}
          x="10" y="10" width="180" height="180"
-         mask="url(#hero-mask)"
+         mask={`url(#${maskId})`}
          preserveAspectRatio="xMidYMid slice"
          style={{ opacity: 0.9 }}
        />
 
-       {/* Energy Hue Overlay - Masked by the same blocks so it only lights up the image part?
-           Or just a rect on top. If we want it "over it", maybe just a rect.
-           If we want it to respect the blocks, use the mask.
-           Let's use the mask so it looks like the blocks themselves are glowing.
-       */}
+       {/* Energy Hue Overlay */}
        <rect
           className="energy-overlay"
           x="10" y="10" width="180" height="180"
           fill={color}
-          mask="url(#hero-mask)"
+          mask={`url(#${maskId})`}
           style={{ opacity: 0, mixBlendMode: 'screen' }}
        />
 
@@ -152,39 +150,10 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) =>
   const renderIllustration = () => {
     switch (activePhase.name) {
       case 'hero': // Global Reach / Identity
-        return <HeroIllustration color={color} />;
+        return <BlockRevealIllustration color={color} imageSrc="/assets/global-reach-portrait.png" />;
 
       case 'worlds': // Manga & Story IP
-        return (
-          <svg viewBox="0 0 200 200" className="w-full h-full p-8" fill="none" stroke={color} strokeWidth="1">
-            {/* Book/Portal Pages */}
-            <motion.rect
-              x="50" y="40" width="100" height="120" rx="2"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <motion.path
-              d="M60 60 H140 M60 80 H140 M60 100 H120"
-              strokeOpacity="0.5"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-            />
-            {/* Floating particles/planets */}
-            <motion.circle
-              cx="160" cy="60" r="10"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.circle
-              cx="40" cy="140" r="15"
-              strokeDasharray="2 2"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            />
-          </svg>
-        );
+        return <BlockRevealIllustration color={color} imageSrc="/assets/studio-limitless-logo.png" />;
 
       case 'brands': // Content & AI Ads
         return (
