@@ -31,7 +31,9 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
         opacity: [0, 1],
         easing: 'easeOutExpo', // Smooth joining
         duration: 2500,
-        delay: stagger(10, { grid: [12, 12], from: 'center' }), // Stagger from center
+        // Using 'center' without grid makes it ripple based on index distance from the middle element
+        // This feels more organic than row-by-row
+        delay: stagger(20, { from: 'center' }),
       });
 
       animRef.current = animation;
@@ -46,7 +48,7 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
                 loop: true,
                 duration: 2000,
                 easing: 'easeInOutSine',
-                delay: stagger(50, { grid: [12, 12], from: 'center' })
+                delay: stagger(50, { from: 'center' })
              });
              animRef.current = breathing;
           }).catch((err: any) => {
@@ -65,7 +67,7 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
 
   }, []);
 
-  // Generate packed circles for the mask
+  // Generate packed circles for the mask with offset for hexagonal look
   const bubbles = [];
   const rows = 12;
   const cols = 12;
@@ -73,13 +75,19 @@ const HeroIllustration: React.FC<{ color: string }> = ({ color }) => {
 
   for(let i=0; i < rows; i++) {
     for(let j=0; j < cols; j++) {
+       const isOddRow = j % 2 !== 0;
+       const offset = isOddRow ? spacing / 2 : 0;
+       const randomRadius = spacing * 0.5 + (Math.random() * (spacing * 0.3)); // Vary radius 0.5-0.8 spacing
+       const jitterX = (Math.random() - 0.5) * 5; // Slight jitter
+       const jitterY = (Math.random() - 0.5) * 5;
+
        bubbles.push(
          <circle
            key={`${i}-${j}`}
            className="hero-bubble"
-           cx={i * spacing}
-           cy={j * spacing}
-           r={spacing * 0.6} // Radius slightly larger than half spacing to overlap
+           cx={(i * spacing) + offset + jitterX}
+           cy={(j * spacing) + jitterY}
+           r={randomRadius}
            fill="white"
          />
        );
