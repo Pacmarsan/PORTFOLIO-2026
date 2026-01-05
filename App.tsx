@@ -71,7 +71,7 @@ const App: React.FC = () => {
     return {
       opacity: proximity,
       scale: 0.95 + (0.05 * proximity),
-      blur: (1 - proximity) * 8,
+      blur: 0,
       y: (1 - proximity) * 20
     };
   }, [scrollProgress]);
@@ -191,7 +191,6 @@ const App: React.FC = () => {
               style={{ 
                 opacity: hudState.opacity, 
                 scale: hudState.scale,
-                filter: `blur(${hudState.blur}px)`
               }}
               className="fixed inset-0 pointer-events-none z-20 flex items-center justify-center lg:justify-start px-8 lg:px-24"
             >
