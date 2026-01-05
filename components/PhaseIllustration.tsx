@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { animate, stagger, utils } from 'animejs';
+import { animate, stagger } from 'animejs';
 import { Phase } from '../types';
 import { BubbleMergeIllustration } from './BubbleMergeIllustration';
 
 interface PhaseIllustrationProps {
   activePhase: Phase;
+  onInteract?: () => void;
 }
 
 const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = ({ color, imageSrc }) => {
@@ -109,8 +110,9 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
   );
 };
 
-const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) => {
+const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase, onInteract }) => {
   const color = activePhase.color;
+  const isInteractive = activePhase.name === 'hero' && !!onInteract;
 
   const renderIllustration = () => {
     switch (activePhase.name) {
@@ -211,7 +213,11 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) =>
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
       transition={{ duration: 0.5 }}
-      className="w-full h-full flex items-center justify-center pointer-events-none drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+      onClick={isInteractive ? onInteract : undefined}
+      data-testid={isInteractive ? "hero-illustration-interactive" : "hero-illustration"}
+      className={`w-full h-full flex items-center justify-center drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] ${
+        isInteractive ? 'pointer-events-auto cursor-pointer hover:scale-105 transition-transform duration-300' : 'pointer-events-none'
+      }`}
     >
       <div className="w-[400px] h-[400px]">
         {renderIllustration()}

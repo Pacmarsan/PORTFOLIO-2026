@@ -85,7 +85,7 @@ const TerminalText: React.FC<TerminalTextProps> = ({ text, className, delay = 0 
   }, [text, delay]);
 
   return (
-    <span className={`${className} inline-block whitespace-pre`}>
+    <span className={`${className} inline-block whitespace-pre-wrap`}>
       {displayText || " "}
       {isRevealing && (
         <motion.span

@@ -7,12 +7,16 @@ import ParticleCanvas from './components/ParticleCanvas';
 import MorphingShape from './components/MorphingShape';
 import TerminalText from './components/TerminalText';
 import PhaseIllustration from './components/PhaseIllustration';
+import HeroIdentity from './components/HeroIdentity';
 
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [coords, setCoords] = useState({ x: 0, y: 0, z: 0 });
+
+  // Hero Expansion State
+  const [heroExpanded, setHeroExpanded] = useState(false);
 
   useEffect(() => {
     // Simulate system pre-load
@@ -51,6 +55,13 @@ const App: React.FC = () => {
       return Math.abs(curr.start - scrollProgress) < Math.abs(prev.start - scrollProgress) ? curr : prev;
     });
   }, [scrollProgress]);
+
+  // Collapse hero expansion if phase changes
+  useEffect(() => {
+    if (activePhase.name !== 'hero') {
+      setHeroExpanded(false);
+    }
+  }, [activePhase.name]);
 
   // Dynamic HUD state based on phase proximity
   const hudState = useMemo(() => {
@@ -194,11 +205,20 @@ const App: React.FC = () => {
               }}
               className="fixed inset-0 pointer-events-none z-20 flex items-center justify-center lg:justify-start px-8 lg:px-24"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-[1400px] h-[600px] gap-12 items-center">
+              {/* Dynamic Layout Container */}
+              <div className="relative w-full max-w-[1400px] h-[600px] flex items-center">
                 
                 {/* Left Panel: Data Terminal */}
-                <div className="relative h-full flex flex-col justify-center">
-                  <div className="hud-border bg-[#050505]/60 backdrop-blur-md p-8 lg:p-12 border-l-4 border-l-[var(--accent)] relative group overflow-hidden pointer-events-auto">
+                <motion.div
+                   className="w-full lg:w-1/2 h-full absolute lg:relative left-0 top-0 flex flex-col justify-center pointer-events-auto"
+                   animate={{
+                     opacity: heroExpanded ? 0 : 1,
+                     x: heroExpanded ? -50 : 0,
+                     pointerEvents: heroExpanded ? 'none' : 'auto'
+                   }}
+                   transition={{ duration: 0.5 }}
+                >
+                  <div className="hud-border bg-[#050505]/60 backdrop-blur-md p-8 lg:p-12 border-l-4 border-l-[var(--accent)] relative group overflow-hidden">
                     <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-white/5" />
                     <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/5" />
                     
@@ -254,13 +274,43 @@ const App: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="hidden lg:block h-full relative">
+                {/* Right Panel / Hero Illustration */}
+                <motion.div
+                   className="hidden lg:block h-full absolute right-0 top-0 pointer-events-none"
+                   initial={false}
+                   animate={{
+                     width: heroExpanded ? '35%' : '50%',
+                     left: heroExpanded ? 0 : '50%',
+                     right: 'auto',
+                   }}
+                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
                   <AnimatePresence mode="wait">
-                    <PhaseIllustration key={activePhase.name} activePhase={activePhase} />
+                    <PhaseIllustration
+                        key={activePhase.name}
+                        activePhase={activePhase}
+                        onInteract={() => setHeroExpanded(true)}
+                    />
                   </AnimatePresence>
-                </div>
+                </motion.div>
+
+                {/* Hero Expanded Content Layer */}
+                <motion.div
+                  className="absolute right-0 top-0 h-full hidden lg:flex flex-col justify-center pointer-events-auto"
+                  initial={{ width: '50%', opacity: 0, x: 100 }}
+                  animate={{
+                    width: heroExpanded ? '65%' : '50%',
+                    opacity: heroExpanded ? 1 : 0,
+                    x: heroExpanded ? 0 : 100,
+                    pointerEvents: heroExpanded ? 'auto' : 'none'
+                  }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
+                    {heroExpanded && <HeroIdentity onClose={() => setHeroExpanded(false)} />}
+                </motion.div>
+
               </div>
             </motion.div>
 
