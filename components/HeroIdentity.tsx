@@ -25,22 +25,6 @@ const SectionBody: React.FC<{ children: React.ReactNode; delay?: number }> = ({ 
   </motion.div>
 );
 
-const WorkItem: React.FC<{ title: string; desc: string; delay?: number }> = ({ title, desc, delay = 0 }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay }}
-    className="border-l border-white/10 pl-4 py-1 hover:border-[var(--accent)] transition-colors group"
-  >
-    <div className="text-white font-bold text-xs uppercase tracking-wider mb-1 group-hover:text-[var(--accent)] transition-colors">
-      {title}
-    </div>
-    <div className="text-[11px] text-white/50 leading-tight">
-      {desc}
-    </div>
-  </motion.div>
-);
-
 const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div className="h-full w-full flex flex-col justify-center relative pl-8 lg:pl-16 pr-12 lg:pr-24 overflow-y-auto lg:overflow-visible">
@@ -59,7 +43,7 @@ const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </svg>
       </button>
 
-      <div className="space-y-8 relative z-10 max-w-2xl">
+      <div className="space-y-10 relative z-10 max-w-2xl">
 
         {/* Name & Title */}
         <div>
@@ -78,78 +62,33 @@ const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <div className="h-[1px] w-full bg-gradient-to-r from-[var(--accent)] to-transparent opacity-30" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Column 1: About & Philosophy */}
-          <div className="space-y-8">
-            <div>
-              <SectionTitle delay={1}>About Me</SectionTitle>
-              <SectionBody delay={1}>
-                <p className="mb-4">
-                  I build worlds, brands, and digital products — from idea to execution.
-                </p>
-                <p className="mb-4">
-                  My work lives at the intersection of storytelling, design, and technology. I don’t operate as a single-role creative; I build complete systems that are imagined, designed, engineered, and shipped with purpose.
-                </p>
-                <p>
-                  I’m a graphic designer, manga artist and writer, brand content creator, and web/product developer. Over time, these disciplines converged into one practice: creating cohesive experiences that feel intentional at every layer — visual, narrative, and technical.
-                </p>
-              </SectionBody>
-            </div>
-
-            <div>
-              <SectionTitle delay={1.4}>Philosophy</SectionTitle>
-              <SectionBody delay={1.4}>
-                <p className="mb-4">
-                  I’m especially focused on transformation — how a story becomes a brand, how a brand becomes an experience, and how an experience becomes a product. That’s why my work blends motion, interaction, animation, and emerging tools like generative AI.
-                </p>
-                <p>
-                  This portfolio is designed as a single universe with multiple domains, reflecting how I work in real life: one core vision, expressed differently depending on the problem.
-                </p>
-              </SectionBody>
-            </div>
+        {/* Content Sections */}
+        <div className="space-y-8">
+          <div>
+            <SectionTitle delay={1}>About</SectionTitle>
+            <SectionBody delay={1}>
+              <p>
+                I build worlds, brands, and digital products — from idea to execution. My work blends storytelling, design, and technology into complete systems that are imagined, built, and shipped with intention.
+              </p>
+            </SectionBody>
           </div>
 
-          {/* Column 2: Domains & Closing */}
-          <div className="space-y-8">
-            <div>
-              <SectionTitle delay={1.8}>Work Domains</SectionTitle>
-              <div className="space-y-4 mt-4">
-                <WorkItem
-                  title="Narrative & IP"
-                  desc="Manga, story worlds, lore, and long-form concepts"
-                  delay={2.0}
-                />
-                <WorkItem
-                  title="Brand systems & campaigns"
-                  desc="Identity, visuals, AI-powered ads, and content"
-                  delay={2.1}
-                />
-                <WorkItem
-                  title="Digital experiences"
-                  desc="Websites and landing pages built for clarity and impact"
-                  delay={2.2}
-                />
-                <WorkItem
-                  title="Products & tools"
-                  desc="Web apps and experimental systems built through vibe coding"
-                  delay={2.3}
-                />
-              </div>
-            </div>
+          <div>
+            <SectionTitle delay={1.4}>Philosophy</SectionTitle>
+            <SectionBody delay={1.4}>
+              <p>
+                I’m driven by transformation — how stories become brands, brands become experiences, and experiences become products. That’s why my work often blends motion, interaction, animation, and emerging tools like generative AI.
+              </p>
+            </SectionBody>
+          </div>
 
-            <div>
-              <SectionTitle delay={2.5}>Closing Statement</SectionTitle>
-              <SectionBody delay={2.5}>
-                <p className="mb-2">If you’re looking for someone who can:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs mb-4 text-white/60">
-                  <li>Think conceptually</li>
-                  <li>Design with intention</li>
-                  <li>Build with modern tools</li>
-                  <li>And connect everything into a coherent whole</li>
-                </ul>
-                <p className="font-bold text-white">—you’re in the right place.</p>
-              </SectionBody>
-            </div>
+          <div>
+            <SectionTitle delay={1.8}>Final Message</SectionTitle>
+            <SectionBody delay={1.8}>
+              <p>
+                This portfolio is designed as one universe with multiple domains, reflecting how I work in real life: one core vision, expressed differently depending on the problem.
+              </p>
+            </SectionBody>
           </div>
         </div>
       </div>

@@ -12,22 +12,26 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 
 // Procedural audio utility for terminal sounds
 const playTick = (audioContext: AudioContext) => {
-  if (audioContext.state === 'suspended') return;
-  
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  
-  osc.type = 'square';
-  osc.frequency.setValueAtTime(800 + Math.random() * 400, audioContext.currentTime);
-  
-  gain.gain.setValueAtTime(0.05, audioContext.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.05);
-  
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
-  
-  osc.start();
-  osc.stop(audioContext.currentTime + 0.05);
+  try {
+    if (audioContext.state === 'suspended') return;
+
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(800 + Math.random() * 400, audioContext.currentTime);
+
+    gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+
+    osc.start();
+    osc.stop(audioContext.currentTime + 0.05);
+  } catch (e) {
+    // Ignore audio errors to prevent crashing the animation
+  }
 };
 
 const TerminalText: React.FC<TerminalTextProps> = ({ text, className, delay = 0 }) => {
@@ -38,8 +42,15 @@ const TerminalText: React.FC<TerminalTextProps> = ({ text, className, delay = 0 
 
   useEffect(() => {
     // Shared AudioContext for the component
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    try {
+      if (!audioContextRef.current) {
+        const AudioCtor = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioCtor) {
+          audioContextRef.current = new AudioCtor();
+        }
+      }
+    } catch (e) {
+      console.warn("AudioContext initialization failed", e);
     }
 
     setIsRevealing(true);
@@ -47,10 +58,13 @@ const TerminalText: React.FC<TerminalTextProps> = ({ text, className, delay = 0 
     let interval: number;
 
     const startReveal = () => {
+      // Clear any existing text to ensure fresh start
+      setDisplayText("");
+
       interval = window.setInterval(() => {
         const currentIteration = Math.floor(iteration);
         
-        // Play sound only when a new character is finalized to avoid sonic clutter
+        // Play sound only when a new character is finalized
         if (currentIteration > lastIterationRef.current && audioContextRef.current) {
           playTick(audioContextRef.current);
           lastIterationRef.current = currentIteration;
