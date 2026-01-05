@@ -86,7 +86,7 @@ const App: React.FC = () => {
   }, [activePhase.color, isInitializing]);
 
   return (
-    <div className="relative min-h-[500vh] selection:bg-[var(--accent)] selection:text-black font-mono">
+    <div className="relative min-h-[600vh] selection:bg-[var(--accent)] selection:text-black font-mono">
       <AnimatePresence>
         {isInitializing ? (
           <motion.div
