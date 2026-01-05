@@ -199,6 +199,55 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase }) =>
           </svg>
         );
 
+      case 'contacts': // Contact / System Link
+        return (
+          <svg viewBox="0 0 200 200" className="w-full h-full p-8" fill="none" stroke={color} strokeWidth="1">
+            {/* Central Hub */}
+            <motion.circle
+              cx="100" cy="100" r="20"
+              fill={color} fillOpacity="0.2"
+              animate={{ r: [20, 25, 20], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <circle cx="100" cy="100" r="10" fill={color} />
+
+            {/* Orbiting Satellites */}
+            <motion.g
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              style={{ originX: "100px", originY: "100px" }}
+            >
+              <circle cx="100" cy="40" r="5" fill={color} />
+              <path d="M100 50 L100 90" strokeDasharray="2 2" />
+
+              <circle cx="100" cy="160" r="5" fill={color} />
+              <path d="M100 150 L100 110" strokeDasharray="2 2" />
+
+              <circle cx="40" cy="100" r="5" fill={color} />
+              <path d="M50 100 L90 100" strokeDasharray="2 2" />
+
+              <circle cx="160" cy="100" r="5" fill={color} />
+              <path d="M150 100 L110 100" strokeDasharray="2 2" />
+            </motion.g>
+
+            {/* Expanding Waves */}
+            <motion.circle
+              cx="100" cy="100" r="40"
+              stroke={color} strokeWidth="0.5"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: [0, 0.5, 0], scale: [0.8, 2] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeOut" }}
+            />
+             <motion.circle
+              cx="100" cy="100" r="40"
+              stroke={color} strokeWidth="0.5"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: [0, 0.5, 0], scale: [0.8, 2] }}
+              transition={{ duration: 3, delay: 1, repeat: Infinity, ease: "easeOut" }}
+            />
+          </svg>
+        );
+
       default:
         return null;
     }
