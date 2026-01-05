@@ -218,7 +218,7 @@ const App: React.FC = () => {
                       >
                         <h2 className="text-5xl lg:text-7xl font-bold tracking-tighter mb-8 glow-text leading-tight text-[var(--accent)]">
                           <TerminalText 
-                            text={activePhase.name === 'hero' ? 'GLOBAL REACH' : activePhase.name.toUpperCase()} 
+                            text={activePhase.name === 'hero' ? 'WHO I AM' : activePhase.name.toUpperCase()}
                           />
                         </h2>
                         
