@@ -37,7 +37,8 @@ const BOOKS: Record<string, BookData[]> = {
       status: 'released',
       type: 'manga',
       synopsis: 'When the darkness stirs, something awakens. How long can you run before it finds you?',
-      color: '#a3a3a3'
+      color: '#a3a3a3',
+      coverImage: '/assets/specter-cover.jpg'
     },
     {
       id: 'first-bite',
