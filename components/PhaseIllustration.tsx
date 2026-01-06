@@ -112,7 +112,7 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
 
 const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase, onInteract }) => {
   const color = activePhase.color;
-  const isInteractive = activePhase.name === 'hero' && !!onInteract;
+  const isInteractive = (activePhase.name === 'hero' || activePhase.name === 'worlds') && !!onInteract;
 
   const renderIllustration = () => {
     switch (activePhase.name) {
