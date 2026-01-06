@@ -9,6 +9,7 @@ import TerminalText from './components/TerminalText';
 import PhaseIllustration from './components/PhaseIllustration';
 import HeroIdentity from './components/HeroIdentity';
 import WorldsArchive from './components/WorldsArchive';
+import BrandsArchive from './components/BrandsArchive';
 
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -18,6 +19,7 @@ const App: React.FC = () => {
 
   // Expansion State
   const [expandedPhase, setExpandedPhase] = useState<PhaseName | null>(null);
+  const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
 
   useEffect(() => {
     // Simulate system pre-load
@@ -98,7 +100,7 @@ const App: React.FC = () => {
   }, [activePhase.color, isInitializing]);
 
   const handleInteraction = () => {
-    if (activePhase.name === 'hero' || activePhase.name === 'worlds') {
+    if (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands') {
       setExpandedPhase(activePhase.name);
     }
   };
@@ -301,6 +303,9 @@ const App: React.FC = () => {
                         key={activePhase.name}
                         activePhase={activePhase}
                         onInteract={handleInteraction}
+                        isExpanded={isExpanded}
+                        selectedBrandId={selectedBrandId}
+                        onBrandSelect={setSelectedBrandId}
                     />
                   </AnimatePresence>
                 </motion.div>
@@ -322,6 +327,12 @@ const App: React.FC = () => {
                     )}
                     {expandedPhase === 'worlds' && (
                         <WorldsArchive onClose={() => setExpandedPhase(null)} />
+                    )}
+                    {expandedPhase === 'brands' && (
+                        <BrandsArchive
+                           selectedBrandId={selectedBrandId}
+                           onClose={() => { setExpandedPhase(null); setSelectedBrandId(null); }}
+                        />
                     )}
                 </motion.div>
 
