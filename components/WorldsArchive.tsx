@@ -14,6 +14,7 @@ interface BookData {
   type: BookType;
   synopsis: string;
   color: string; // Spine color
+  coverImage?: string;
 }
 
 // Data
@@ -26,7 +27,8 @@ const BOOKS: Record<string, BookData[]> = {
       status: 'released',
       type: 'manga',
       synopsis: 'A world plunged into sorrow and despair after a deal with \'one\' no one should trust. Now, only a chosen few have the courage to risk their lives to fix the terrible mistakes made. But was it all for nothing? Was it all a gamble? Or was it all hopeless from the start?',
-      color: '#ff5e5e'
+      color: '#ff5e5e',
+      coverImage: '/assets/all-hallows-eve-cover.jpg'
     },
     {
       id: 'specter',
@@ -156,6 +158,24 @@ const ShelfRow: React.FC<{ title: string; books: BookData[]; onSelectBook: (book
 const BookCoverSVG: React.FC<{ book: BookData }> = ({ book }) => {
     // Generate a consistent pattern based on string hash or just use simple logic
     const isManga = book.type === 'manga';
+
+    if (book.coverImage) {
+        return (
+            <svg viewBox="0 0 300 450" className="w-full h-full shadow-2xl rounded-sm">
+                 <image
+                    href={book.coverImage}
+                    x="0"
+                    y="0"
+                    width="300"
+                    height="450"
+                    preserveAspectRatio="xMidYMid slice"
+                />
+                {/* Overlay spine shine for consistency */}
+                <rect x="0" y="0" width="10" height="450" fill="white" fillOpacity="0.1" />
+                <rect width="100%" height="100%" fill="none" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
+            </svg>
+        );
+    }
 
     return (
         <svg viewBox="0 0 300 450" className="w-full h-full shadow-2xl rounded-sm">
