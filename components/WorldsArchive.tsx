@@ -15,6 +15,7 @@ interface BookData {
   synopsis: string;
   color: string; // Spine color
   coverImage?: string;
+  readLink?: string;
 }
 
 // Data
@@ -28,7 +29,8 @@ const BOOKS: Record<string, BookData[]> = {
       type: 'manga',
       synopsis: 'A world plunged into sorrow and despair after a deal with \'one\' no one should trust. Now, only a chosen few have the courage to risk their lives to fix the terrible mistakes made. But was it all for nothing? Was it all a gamble? Or was it all hopeless from the start?',
       color: '#ff5e5e',
-      coverImage: '/assets/all-hallows-eve-cover.jpg'
+      coverImage: '/assets/all-hallows-eve-cover.jpg',
+      readLink: 'https://mangaplus-creators.jp/episodes/qf2410041822304070025580017'
     },
     {
       id: 'specter',
@@ -38,7 +40,8 @@ const BOOKS: Record<string, BookData[]> = {
       type: 'manga',
       synopsis: 'When the darkness stirs, something awakens. How long can you run before it finds you?',
       color: '#a3a3a3',
-      coverImage: '/assets/specter-cover.jpg'
+      coverImage: '/assets/specter-cover.jpg',
+      readLink: 'https://mangaplus-creators.jp/episodes/na2411040411010370026609448'
     },
     {
       id: 'first-bite',
@@ -48,7 +51,8 @@ const BOOKS: Record<string, BookData[]> = {
       type: 'manga',
       synopsis: 'In a world overrun with the undead, two survivors face a fate defining trail that tests the bond keeping them alive.',
       color: '#ffffff',
-      coverImage: '/assets/first-bite-cover.jpg'
+      coverImage: '/assets/first-bite-cover.jpg',
+      readLink: 'https://mangaplus-creators.jp/episodes/sb2412252117006130026909136'
     },
     {
       id: 'bloodmoon-zero',
@@ -58,7 +62,8 @@ const BOOKS: Record<string, BookData[]> = {
       type: 'manga',
       synopsis: 'When Life puts you on the edge of edges and you\'re forced to survive by any means necessary just for the sake of your loved ones...',
       color: '#ff004c',
-      coverImage: '/assets/bloodmoon-zero-cover.jpg'
+      coverImage: '/assets/bloodmoon-zero-cover.jpg',
+      readLink: 'https://mangaplus-creators.jp/episodes/ek2507150148560027245996'
     },
     {
       id: 'ominous-ch1-pt1',
@@ -68,7 +73,8 @@ const BOOKS: Record<string, BookData[]> = {
       type: 'manga',
       synopsis: 'In a shattered world plagued by relentless breaches, "Ominous" follows Celon Xander and Janet Xander. Confronted by monstrous entities called the "Plague", the siblings navigate this disaster torn reality to find their own path in it.',
       color: '#9d4edd',
-      coverImage: '/assets/ominous-chapter1.jpg'
+      coverImage: '/assets/ominous-chapter1.jpg',
+      readLink: 'https://mangaplus-creators.jp/episodes/su2512262012330026609448'
     }
   ],
   upcoming_mangas: [
@@ -293,16 +299,37 @@ const BookDetail: React.FC<{ book: BookData; onClose: () => void }> = ({ book, o
                 {book.synopsis}
              </motion.p>
 
-             <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                onClick={onClose}
-                className="text-[10px] tracking-widest uppercase text-[var(--accent)] hover:text-white transition-colors mt-8 flex items-center gap-2 group"
-             >
-                 <span>← Return to Shelf</span>
-                 <div className="h-[1px] w-8 bg-[var(--accent)] group-hover:w-12 transition-all" />
-             </motion.button>
+             <div className="flex flex-col gap-4 mt-8">
+                {book.readLink && (
+                    <motion.a
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.65 }}
+                        href={book.readLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-fit flex items-center gap-3 px-6 py-3 bg-[var(--accent)] text-white text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-white hover:text-black transition-all duration-300"
+                    >
+                        <span>Read Here</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                    </motion.a>
+                )}
+
+                 <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    onClick={onClose}
+                    className="text-[10px] tracking-widest uppercase text-[var(--accent)] hover:text-white transition-colors flex items-center gap-2 group w-fit"
+                 >
+                     <span>← Return to Shelf</span>
+                     <div className="h-[1px] w-8 bg-[var(--accent)] group-hover:w-12 transition-all" />
+                 </motion.button>
+             </div>
         </div>
     </div>
   );
