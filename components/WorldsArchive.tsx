@@ -67,7 +67,8 @@ const BOOKS: Record<string, BookData[]> = {
       status: 'released',
       type: 'manga',
       synopsis: 'In a shattered world plagued by relentless breaches, "Ominous" follows Celon Xander and Janet Xander. Confronted by monstrous entities called the "Plague", the siblings navigate this disaster torn reality to find their own path in it.',
-      color: '#9d4edd'
+      color: '#9d4edd',
+      coverImage: '/assets/ominous-chapter1.jpg'
     }
   ],
   upcoming_mangas: [
