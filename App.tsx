@@ -332,6 +332,7 @@ const App: React.FC = () => {
                         <BrandsArchive
                            selectedBrandId={selectedBrandId}
                            onClose={() => { setExpandedPhase(null); setSelectedBrandId(null); }}
+                           onSelect={(id) => setSelectedBrandId(id || null)}
                         />
                     )}
                 </motion.div>

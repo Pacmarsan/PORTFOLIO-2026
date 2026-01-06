@@ -19,8 +19,8 @@ export const BRANDS: BrandData[] = [
     title: 'ZIRO ROBOTICS',
     subtext: 'AUTONOMOUS LOGISTICS',
     descriptor: 'BRAND IDENTITY & SYSTEM DESIGN',
-    description: 'A complete visual overhaul for the world\'s leading autonomous delivery fleet. The identity focuses on precision, reliability, and the seamless integration of AI into urban environments. We developed a motion language that mimics the smooth acceleration of electric drivetrains.',
-    image: '/assets/ziro-robot.png', // Using existing asset as placeholder if needed, or generated SVG
+    description: 'A complete visual overhaul for the world\'s leading autonomous delivery fleet. The identity focuses on precision, reliability, and the seamless integration of AI into urban environments.',
+    image: '/assets/ziro-robot.png',
     color: '#00f5ff',
     ringIndex: 0
   },
@@ -29,8 +29,8 @@ export const BRANDS: BrandData[] = [
     title: 'AETHER SYSTEMS',
     subtext: 'CLOUD INFRASTRUCTURE',
     descriptor: 'WEB PLATFORM & DASHBOARD',
-    description: 'Redefining how developers visualize complex data streams. Aether Systems needed a dashboard that felt like a cockpit, not a spreadsheet. We utilized WebGL data visualization and a dark-mode-first aesthetic to reduce eye strain during long ops sessions.',
-    image: '/assets/global-reach-portrait.png', // Placeholder
+    description: 'Redefining how developers visualize complex data streams. Aether Systems needed a dashboard that felt like a cockpit, not a spreadsheet.',
+    image: '/assets/global-reach-portrait.png',
     color: '#7c5cff',
     ringIndex: 1
   },
@@ -39,8 +39,8 @@ export const BRANDS: BrandData[] = [
     title: 'NEO-TOKYO FASHION',
     subtext: 'DIGITAL WEARABLES',
     descriptor: 'METAVERSE CAMPAIGN',
-    description: 'Launching a digital-only clothing line requires breaking the laws of physics. We created a gravity-defying promotional video series and an interactive AR lookbook that allows users to project garments onto their own environment.',
-    image: '/assets/specter-cover.jpg', // Placeholder
+    description: 'Launching a digital-only clothing line requires breaking the laws of physics. We created a gravity-defying promotional video series.',
+    image: '/assets/specter-cover.jpg',
     color: '#ff2a6d',
     ringIndex: 2
   },
@@ -49,10 +49,70 @@ export const BRANDS: BrandData[] = [
     title: 'ECHO SOUND',
     subtext: 'SPATIAL AUDIO SDK',
     descriptor: 'PRODUCT MARKETING',
-    description: 'Visualizing sound is impossible, so we visualized the feeling of sound. Using generative wave patterns controlled by audio input, the brand identity for Echo Sound shifts and pulses in real-time, demonstrating the product capabilities implicitly.',
-    image: '/assets/all-hallows-eve-cover.jpg', // Placeholder
+    description: 'Visualizing sound is impossible, so we visualized the feeling of sound. Using generative wave patterns controlled by audio input.',
+    image: '/assets/all-hallows-eve-cover.jpg',
     color: '#ffb703',
     ringIndex: 3
+  },
+  {
+    id: 'cyber-dynamics',
+    title: 'CYBER DYNAMICS',
+    subtext: 'NEURAL INTERFACES',
+    descriptor: 'UX/UI RESEARCH',
+    description: 'Designing the interface between human thought and machine execution. Minimal latency, maximum clarity.',
+    image: '/assets/studio-limitless-logo.png',
+    color: '#00ff9c',
+    ringIndex: 4
+  },
+  {
+    id: 'orbit-heavy',
+    title: 'ORBIT HEAVY INDUSTRIES',
+    subtext: 'ORBITAL CONSTRUCTION',
+    descriptor: 'CORPORATE BRANDING',
+    description: 'A heavy industrial brand for zero-gravity environments. Robust, high-contrast, and safety-focused visual systems.',
+    image: '/assets/ziro-robot.png',
+    color: '#ff5e5e',
+    ringIndex: 5
+  },
+  {
+    id: 'synapse-net',
+    title: 'SYNAPSE NET',
+    subtext: 'DECENTRALIZED WEB',
+    descriptor: 'PROTOCOL DESIGN',
+    description: 'Visualizing the invisible threads that connect the new internet. Organic, self-organizing patterns meet rigid cryptographic structures.',
+    image: '/assets/global-reach-portrait.png',
+    color: '#9d4edd',
+    ringIndex: 6
+  },
+  {
+    id: 'chroma-labs',
+    title: 'CHROMA LABS',
+    subtext: 'OPTICAL COMPUTING',
+    descriptor: 'R&D VISUALIZATION',
+    description: 'Light-based computing needs a light-based identity. Using prismatic diffraction and spectral analysis as core brand elements.',
+    image: '/assets/specter-cover.jpg',
+    color: '#ffffff',
+    ringIndex: 7
+  },
+  {
+    id: 'void-security',
+    title: 'VOID SECURITY',
+    subtext: 'QUANTUM ENCRYPTION',
+    descriptor: 'SECURE SYSTEMS',
+    description: 'Security you can feel. Dark, impenetrable, and absolute. The visual language of silence and negation.',
+    image: '/assets/all-hallows-eve-cover.jpg',
+    color: '#1a1a1a',
+    ringIndex: 8
+  },
+  {
+    id: 'pulse-engine',
+    title: 'PULSE ENGINE',
+    subtext: 'HYPERLOOP TRANSPORT',
+    descriptor: 'INDUSTRIAL DESIGN',
+    description: 'Speed visualized. Streaks, blurs, and the Doppler effect frozen in time for the next generation of transit.',
+    image: '/assets/studio-limitless-logo.png',
+    color: '#ff004c',
+    ringIndex: 9
   }
 ];
 
@@ -135,9 +195,10 @@ const BrandDetail: React.FC<{ brand: BrandData }> = ({ brand }) => {
 interface BrandsArchiveProps {
     selectedBrandId: string | null;
     onClose: () => void;
+    onSelect?: (id: string) => void;
 }
 
-const BrandsArchive: React.FC<BrandsArchiveProps> = ({ selectedBrandId, onClose }) => {
+const BrandsArchive: React.FC<BrandsArchiveProps> = ({ selectedBrandId, onClose, onSelect }) => {
   const selectedBrand = BRANDS.find(b => b.id === selectedBrandId);
 
   return (
@@ -148,17 +209,39 @@ const BrandsArchive: React.FC<BrandsArchiveProps> = ({ selectedBrandId, onClose 
         <div className="relative z-10 w-full h-full flex flex-col justify-center">
             <AnimatePresence mode="wait">
                 {selectedBrand ? (
-                    <BrandDetail key={selectedBrand.id} brand={selectedBrand} />
+                    <div className="w-full h-full flex flex-col">
+                        <button
+                            onClick={() => onSelect?.('')}
+                            className="w-fit mb-8 text-[10px] tracking-widest text-white/40 hover:text-white uppercase transition-colors"
+                        >
+                            ← Back to List
+                        </button>
+                        <BrandDetail key={selectedBrand.id} brand={selectedBrand} />
+                    </div>
                 ) : (
                     <motion.div
-                        key="empty"
+                        key="list"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="flex flex-col items-center justify-center text-center space-y-4 opacity-50"
+                        className="w-full flex flex-col justify-center items-start space-y-8 h-full overflow-y-auto custom-scrollbar pr-4"
                     >
-                         <div className="text-[10px] tracking-[0.4em] uppercase text-white/60">Select a record track</div>
-                         <div className="w-12 h-[1px] bg-white/20" />
+                         <div className="text-[10px] tracking-[0.4em] uppercase text-white/60 mb-8 border-b border-white/10 pb-2 w-full sticky top-0 bg-[#050505] z-10">Select a Brand</div>
+                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full pb-8">
+                            {BRANDS.map((brand, i) => (
+                                <motion.button
+                                    key={brand.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    onClick={() => onSelect?.(brand.id)}
+                                    className="group text-left p-6 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[var(--accent)]/50 transition-all duration-300"
+                                >
+                                    <div className="text-[9px] tracking-[0.2em] text-[var(--accent)] uppercase mb-2 group-hover:text-white transition-colors">{brand.subtext}</div>
+                                    <div className="text-xl font-bold text-white tracking-tight">{brand.title}</div>
+                                </motion.button>
+                            ))}
+                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
