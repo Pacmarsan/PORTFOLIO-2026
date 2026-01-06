@@ -47,7 +47,8 @@ const BOOKS: Record<string, BookData[]> = {
       status: 'released',
       type: 'manga',
       synopsis: 'In a world overrun with the undead, two survivors face a fate defining trail that tests the bond keeping them alive.',
-      color: '#ffffff'
+      color: '#ffffff',
+      coverImage: '/assets/first-bite-cover.jpg'
     },
     {
       id: 'bloodmoon-zero',
