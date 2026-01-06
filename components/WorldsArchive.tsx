@@ -25,7 +25,7 @@ const BOOKS: Record<string, BookData[]> = {
       releaseDate: 'October 4, 2024',
       status: 'released',
       type: 'manga',
-      synopsis: 'On the night when the veil is thinnest, a forgotten ritual reawakens forces that should have stayed buried. A horror anthology that explores the cost of curiosity.',
+      synopsis: 'A world plunged into sorrow and despair after a deal with \'one\' no one should trust. Now, only a chosen few have the courage to risk their lives to fix the terrible mistakes made. But was it all for nothing? Was it all a gamble? Or was it all hopeless from the start?',
       color: '#ff5e5e'
     },
     {
@@ -34,7 +34,7 @@ const BOOKS: Record<string, BookData[]> = {
       releaseDate: 'November 3, 2024',
       status: 'released',
       type: 'manga',
-      synopsis: 'In a city where ghosts are just another demographic, a detective specializing in spectral crimes uncovers a conspiracy that threatens both the living and the dead.',
+      synopsis: 'When the darkness stirs, something awakens. How long can you run before it finds you?',
       color: '#a3a3a3'
     },
     {
@@ -43,7 +43,7 @@ const BOOKS: Record<string, BookData[]> = {
       releaseDate: 'December 25, 2024',
       status: 'released',
       type: 'manga',
-      synopsis: 'Survival isn\'t about being the strongest; it\'s about being the first to strike. A dystopian thriller set in a world where food is the ultimate currency.',
+      synopsis: 'In a world overrun with the undead, two survivors face a fate defining trail that tests the bond keeping them alive.',
       color: '#ffffff'
     },
     {
@@ -52,7 +52,7 @@ const BOOKS: Record<string, BookData[]> = {
       releaseDate: 'July 15, 2025',
       status: 'released',
       type: 'manga',
-      synopsis: 'When the moon turns red, the zero hour begins. A high-octane action series following a squad of elite hunters during the bloodmoon phenomenon.',
+      synopsis: 'When Life puts you on the edge of edges and you\'re forced to survive by any means necessary just for the sake of your loved ones...',
       color: '#ff004c'
     },
     {
@@ -61,7 +61,7 @@ const BOOKS: Record<string, BookData[]> = {
       releaseDate: 'December 25, 2025',
       status: 'released',
       type: 'manga',
-      synopsis: 'The beginning of the end. An ancient prophecy, a reluctant hero, and a shadow that grows longer with every passing day.',
+      synopsis: 'In a shattered world plagued by relentless breaches, "Ominous" follows Celon Xander and Janet Xander. Confronted by monstrous entities called the "Plague", the siblings navigate this disaster torn reality to find their own path in it.',
       color: '#9d4edd'
     }
   ],
