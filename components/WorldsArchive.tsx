@@ -57,7 +57,8 @@ const BOOKS: Record<string, BookData[]> = {
       status: 'released',
       type: 'manga',
       synopsis: 'When Life puts you on the edge of edges and you\'re forced to survive by any means necessary just for the sake of your loved ones...',
-      color: '#ff004c'
+      color: '#ff004c',
+      coverImage: '/assets/bloodmoon-zero-cover.jpg'
     },
     {
       id: 'ominous-ch1-pt1',
