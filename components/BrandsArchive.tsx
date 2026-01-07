@@ -8,12 +8,14 @@ export interface CardData {
   id: string;
   title: string;
   subtext: string;
+  image?: string;
 }
 
 export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => ({
   id: `card-${i + 1}`,
   title: `Card ${i + 1}`,
-  subtext: `System Entity ${i + 1} // Description Placeholder`
+  subtext: `System Entity ${i + 1} // Description Placeholder`,
+  image: i === 0 ? '/assets/card-1-visual.png' : undefined
 }));
 
 // --- COMPONENTS ---
@@ -29,16 +31,31 @@ const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }
       className="group relative flex-shrink-0 w-[300px] lg:w-[400px] aspect-video cursor-pointer"
     >
       {/* Background / Image Placeholder */}
-      <div className="absolute inset-0 bg-white/5 border border-white/10 group-hover:border-[var(--accent)] group-hover:bg-white/10 transition-all duration-300">
-        {/* Placeholder Diagonal Lines or Pattern */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
+      <div className="absolute inset-0 bg-white/5 border border-white/10 group-hover:border-[var(--accent)] group-hover:bg-white/10 transition-all duration-300 overflow-hidden">
+        {card.image ? (
+          <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+            <image
+              href={card.image}
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid slice"
+            />
+          </svg>
+        ) : (
+          <>
+            {/* Placeholder Diagonal Lines or Pattern */}
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
 
-        {/* Center Label for placeholder */}
-        <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-[10px] tracking-widest text-white/20 group-hover:text-[var(--accent)] transition-colors uppercase">
-                Image Signal Lost
-            </span>
-        </div>
+            {/* Center Label for placeholder */}
+            <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-[10px] tracking-widest text-white/20 group-hover:text-[var(--accent)] transition-colors uppercase">
+                    Image Signal Lost
+                </span>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Content Overlay */}
@@ -64,14 +81,29 @@ const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, 
         {/* Left: Image Area (Large) */}
         <motion.div
             layoutId={`card-container-${card.id}`}
-            className="w-full lg:w-1/2 aspect-video bg-white/5 border border-white/10 relative"
+            className="w-full lg:w-1/2 aspect-video bg-white/5 border border-white/10 relative overflow-hidden"
         >
-             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
-             <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs tracking-[0.3em] text-white/20 uppercase">
-                    Visual Feed Offline
-                </span>
-            </div>
+             {card.image ? (
+                <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                    <image
+                        href={card.image}
+                        x="0"
+                        y="0"
+                        width="100%"
+                        height="100%"
+                        preserveAspectRatio="xMidYMid slice"
+                    />
+                </svg>
+             ) : (
+                <>
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-xs tracking-[0.3em] text-white/20 uppercase">
+                            Visual Feed Offline
+                        </span>
+                    </div>
+                </>
+             )}
         </motion.div>
 
         {/* Right: Metadata */}
