@@ -1,117 +1,136 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
-import { animate } from 'animejs';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import TerminalText from './TerminalText';
 
 // --- DATA MODEL ---
 
-export type BrandStage = 'IDEA' | 'LIVE' | 'SCALING';
-
-export interface BrandData {
+export interface CardData {
   id: string;
   title: string;
-  // Identity (Top Strand)
-  concept: string;     // One-line thesis
-  philosophy: string;  // Intent
-  // Execution (Bottom Strand)
-  medium: string;      // Game, Manga, SaaS, Brand, Media
-  visualSystem: string; // Description
-  stage: BrandStage;
+  subtext: string;
 }
 
-export const BRANDS: BrandData[] = [
-  {
-    id: 'ziro-robotics',
-    title: 'ZIRO ROBOTICS',
-    concept: 'Autonomous delivery as an urban circulatory system.',
-    philosophy: 'Efficiency without inhumanity; precision with character.',
-    medium: 'Brand',
-    visualSystem: 'High-contrast safety orange met with clean Swiss typography.',
-    stage: 'SCALING'
-  },
-  {
-    id: 'aether-systems',
-    title: 'AETHER SYSTEMS',
-    concept: 'Data visualization as a habitable environment.',
-    philosophy: 'Complexity should be navigated, not just observed.',
-    medium: 'SaaS',
-    visualSystem: 'Atmospheric depth maps and translucent glass layers.',
-    stage: 'LIVE'
-  },
-  {
-    id: 'neo-fashion',
-    title: 'NEO-TOKYO FASHION',
-    concept: 'Clothing that exists only in the digital ether.',
-    philosophy: 'Identity is fluid; physics is optional.',
-    medium: 'Media',
-    visualSystem: 'Holographic shaders and impossible material physics.',
-    stage: 'IDEA'
-  },
-  {
-    id: 'echo-sound',
-    title: 'ECHO SOUND',
-    concept: 'Audio spatialization for immersive narrative.',
-    philosophy: 'Sound is the primary driver of emotional presence.',
-    medium: 'SaaS',
-    visualSystem: 'Generative waveforms reacting to real-time input.',
-    stage: 'LIVE'
-  },
-  {
-    id: 'cyber-dynamics',
-    title: 'CYBER DYNAMICS',
-    concept: 'The bridge between neural impulse and machine action.',
-    philosophy: 'Seamless integration of biological and digital intent.',
-    medium: 'Brand',
-    visualSystem: 'Bio-digital wireframes and synaptic firing patterns.',
-    stage: 'IDEA'
-  },
-  {
-    id: 'orbit-heavy',
-    title: 'ORBIT HEAVY',
-    concept: 'Construction at the edge of the atmosphere.',
-    philosophy: 'Uncompromising durability in zero-tolerance environments.',
-    medium: 'Brand',
-    visualSystem: 'Industrial warning stripes and heavy structural grids.',
-    stage: 'SCALING'
-  },
-  {
-    id: 'synapse-net',
-    title: 'SYNAPSE NET',
-    concept: 'A self-healing decentralized protocol.',
-    philosophy: 'Resilience through distribution and redundancy.',
-    medium: 'SaaS',
-    visualSystem: 'Node-based constellations and cryptographic lattices.',
-    stage: 'LIVE'
-  },
-  {
-    id: 'chroma-labs',
-    title: 'CHROMA LABS',
-    concept: 'Computing at the speed of light.',
-    philosophy: 'The spectrum is the new binary.',
-    medium: 'R&D',
-    visualSystem: 'Prismatic diffraction and spectral gradients.',
-    stage: 'IDEA'
-  },
-  {
-    id: 'void-security',
-    title: 'VOID SECURITY',
-    concept: 'Encryption as absolute negation.',
-    philosophy: 'True security is the absence of information.',
-    medium: 'SaaS',
-    visualSystem: 'Vantablack voids and minimalist redaction bars.',
-    stage: 'LIVE'
-  },
-  {
-    id: 'pulse-engine',
-    title: 'PULSE ENGINE',
-    concept: 'Hypersonic transit for the connected world.',
-    philosophy: 'Distance is a failure of velocity.',
-    medium: 'Brand',
-    visualSystem: 'Motion-blurred vectors and aerodynamic curves.',
-    stage: 'SCALING'
-  }
-];
+export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => ({
+  id: `card-${i + 1}`,
+  title: `Card ${i + 1}`,
+  subtext: `System Entity ${i + 1} // Description Placeholder`
+}));
 
 // --- COMPONENTS ---
+
+const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }> = ({ card, onClick, index }) => {
+  return (
+    <motion.div
+      layoutId={`card-container-${card.id}`}
+      onClick={onClick}
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative flex-shrink-0 w-[300px] lg:w-[400px] aspect-video cursor-pointer"
+    >
+      {/* Background / Image Placeholder */}
+      <div className="absolute inset-0 bg-white/5 border border-white/10 group-hover:border-[var(--accent)] group-hover:bg-white/10 transition-all duration-300">
+        {/* Placeholder Diagonal Lines or Pattern */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
+
+        {/* Center Label for placeholder */}
+        <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-[10px] tracking-widest text-white/20 group-hover:text-[var(--accent)] transition-colors uppercase">
+                Image Signal Lost
+            </span>
+        </div>
+      </div>
+
+      {/* Content Overlay */}
+      <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+        <div className="text-[10px] tracking-[0.2em] font-bold text-[var(--accent)] uppercase mb-2 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 bg-[var(--accent)]" />
+            <span>ID: {card.id.split('-')[1].padStart(2, '0')}</span>
+        </div>
+        <h3 className="text-xl font-bold tracking-tighter text-white uppercase group-hover:translate-x-2 transition-transform duration-300">
+          {card.title}
+        </h3>
+        <p className="text-[10px] text-white/60 tracking-wider uppercase mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {card.subtext}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
+const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, onClose }) => {
+  return (
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 h-full items-center lg:items-start p-4 lg:p-0 w-full">
+        {/* Left: Image Area (Large) */}
+        <motion.div
+            layoutId={`card-container-${card.id}`}
+            className="w-full lg:w-1/2 aspect-video bg-white/5 border border-white/10 relative"
+        >
+             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #ffffff 10px, #ffffff 11px)' }} />
+             <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-xs tracking-[0.3em] text-white/20 uppercase">
+                    Visual Feed Offline
+                </span>
+            </div>
+        </motion.div>
+
+        {/* Right: Metadata */}
+        <div className="flex-1 space-y-8 mt-4 lg:mt-0">
+             <div>
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-[10px] tracking-[0.2em] font-bold text-[var(--accent)] uppercase mb-2 flex items-center gap-2"
+                >
+                    <div className="w-2 h-2 border border-[var(--accent)]" />
+                    SYSTEM ID: {card.id.toUpperCase()}
+                </motion.div>
+
+                <motion.h2
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-4xl lg:text-5xl font-bold tracking-tighter text-white mb-4"
+                >
+                    <TerminalText text={card.title} />
+                </motion.h2>
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="h-[1px] w-full bg-white/10 my-6"
+                />
+
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-sm leading-relaxed text-white/70 font-light"
+                >
+                    {card.subtext}
+                    <br /><br />
+                    ADDITIONAL DATA: This sector currently holds placeholder information. In a full deployment, this area would contain brand philosophy, visual guidelines, or architectural specifications.
+                </motion.p>
+             </div>
+
+             <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                onClick={onClose}
+                className="text-[10px] tracking-widest uppercase text-[var(--accent)] hover:text-white transition-colors flex items-center gap-2 group w-fit mt-8"
+             >
+                 <span>← Return to Grid</span>
+                 <div className="h-[1px] w-8 bg-[var(--accent)] group-hover:w-12 transition-all" />
+             </motion.button>
+        </div>
+    </div>
+  );
+};
+
+// --- MAIN ARCHIVE COMPONENT ---
 
 interface BrandsArchiveProps {
     selectedBrandId: string | null;
@@ -119,230 +138,75 @@ interface BrandsArchiveProps {
     onSelect?: (id: string) => void;
 }
 
-const BrandRung: React.FC<{
-    brand: BrandData;
-    isSelected: boolean;
-    onSelect: () => void;
-}> = ({ brand, isSelected, onSelect }) => {
-
-    const stageStyle = () => {
-        switch (brand.stage) {
-            case 'IDEA': return { borderBottomStyle: 'dashed', borderBottomWidth: '1px' };
-            case 'LIVE': return { borderBottomStyle: 'solid', borderBottomWidth: '1px' };
-            case 'SCALING': return { borderBottomStyle: 'double', borderBottomWidth: '4px' };
-            default: return {};
-        }
-    };
+const BrandsArchive: React.FC<BrandsArchiveProps> = ({ onClose }) => {
+    const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
 
     return (
-        <motion.div
-            layout
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{
-                opacity: 1,
-                scaleY: 1,
-                width: isSelected ? '500px' : '40px', // Expand inline
-                marginRight: isSelected ? '40px' : '20px',
-                marginLeft: isSelected ? '40px' : '20px',
-            }}
-            exit={{ opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className={`relative flex flex-col justify-center items-center h-[400px] shrink-0 z-10`}
-            onClick={onSelect}
-        >
-            {/* Rung Connector */}
-            <div className={`absolute top-0 bottom-0 w-[1px] bg-[var(--accent)] transition-opacity duration-300 ${isSelected ? 'opacity-0' : 'opacity-40 hover:opacity-100 cursor-pointer'}`}>
-                 <div
-                   className="w-full h-full border-l border-[var(--accent)]"
-                   style={{
-                     borderLeftStyle: brand.stage === 'IDEA' ? 'dashed' : (brand.stage === 'SCALING' ? 'double' : 'solid'),
-                     borderLeftWidth: brand.stage === 'SCALING' ? '3px' : '1px'
-                   }}
-                 />
-            </div>
+        <div className="h-full w-full flex flex-col relative pl-8 lg:pl-16 pr-12 lg:pr-24 overflow-hidden">
+             {/* Background Decor */}
+             <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--accent)] rounded-full blur-[150px] opacity-5 pointer-events-none" />
 
-             {/* Brand Name Label (Rotated when collapsed) */}
-            {!isSelected && (
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap text-[10px] tracking-[0.2em] font-bold text-white/50 origin-center pointer-events-none">
-                    {brand.title}
-                 </div>
-            )}
-
-            {/* EXPANDED CONTENT */}
-            <AnimatePresence>
-                {isSelected && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ delay: 0.2, duration: 0.4 }}
-                        className="w-full h-full flex flex-col py-8 px-8 border border-[var(--accent)] bg-[#050505] text-left overflow-hidden cursor-default relative z-20"
-                        onClick={(e) => e.stopPropagation()} // Prevent collapse on content click if desired, but user can click close button or toggle
-                    >
-                         <button
-                           onClick={(e) => { e.stopPropagation(); onSelect(); }}
-                           className="absolute top-4 right-4 text-[var(--accent)] hover:text-white transition-colors"
-                         >
-                           ✕
-                         </button>
-
-                         {/* 1. Brand Name */}
-                         <h3 className="text-3xl font-bold tracking-tighter text-white uppercase mb-4">{brand.title}</h3>
-
-                         {/* 2. Stage Indicator (Visual) */}
-                         {/* "No labels, pills, or badges may be used." */}
-                         <div className="w-full border-b border-[var(--accent)] opacity-50 mb-6" style={stageStyle() as any} />
-
-                         {/* 3. Concept */}
-                         <p className="text-xl text-white font-serif italic mb-6 leading-tight">"{brand.concept}"</p>
-
-                         {/* 4. Identity Explanation (Philosophy) */}
-                         <p className="text-xs text-white/60 font-mono uppercase tracking-widest mb-auto">{brand.philosophy}</p>
-
-                         {/* 5. Execution Explanation */}
-                         <div className="mt-8 pt-4 border-t border-[var(--accent)]/20">
-                             <div className="text-sm font-bold text-[var(--accent)] uppercase mb-1">{brand.medium}</div>
-                             <p className="text-xs text-white/80 font-mono leading-relaxed">{brand.visualSystem}</p>
-                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-             {/* Top/Bottom Connection Nodes */}
-            <div className="absolute top-0 w-2 h-2 bg-[var(--accent)] rounded-full -translate-y-1/2" />
-            <div className="absolute bottom-0 w-2 h-2 bg-[var(--accent)] rounded-full translate-y-1/2" />
-
-        </motion.div>
-    );
-};
-
-// Simplified Strand: Two continuous lines that define the boundaries of the genome
-const SimpleStrands: React.FC<{ width: number }> = ({ width }) => {
-
-    useEffect(() => {
-        // Subtle "genome is alive" motion
-        animate('.strand-line', {
-            strokeDashoffset: [0, -20],
-            duration: 2000,
-            loop: true,
-            easing: 'linear'
-        });
-    }, []);
-
-    return (
-        <svg
-            className="absolute top-0 left-0 h-full pointer-events-none z-0"
-            style={{ width: width + 100 }}
-            preserveAspectRatio="none"
-            viewBox={`0 0 ${width + 100} 600`}
-        >
-            <defs>
-                 <pattern id="helix-pattern" x="0" y="0" width="100" height="40" patternUnits="userSpaceOnUse">
-                     <path d="M0 20 Q 25 0, 50 20 T 100 20" fill="none" stroke="currentColor" strokeWidth="1" strokeOpacity="0.1" />
-                 </pattern>
-            </defs>
-
-            {/* Top Strand - Identity (y=100 matches top of 400px rung centered at 300) */}
-            <line
-                x1="0" y1="100" x2="100%" y2="100"
-                stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.5"
-                strokeDasharray="10 5"
-                className="strand-line"
-            />
-            <text x="20" y="90" fill="var(--accent)" fontSize="10" letterSpacing="0.2em" opacity="0.5">IDENTITY STRAND</text>
-
-            {/* Bottom Strand - Execution (y=500 matches bottom of 400px rung centered at 300) */}
-            <line
-                x1="0" y1="500" x2="100%" y2="500"
-                stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.5"
-                strokeDasharray="10 5"
-                className="strand-line"
-            />
-            <text x="20" y="520" fill="var(--accent)" fontSize="10" letterSpacing="0.2em" opacity="0.5">EXECUTION STRAND</text>
-
-            {/* DNA Helix Background Effect (Subtle) */}
-            <rect x="0" y="100" width="100%" height="400" fill="url(#helix-pattern)" opacity="0.05" className="text-[var(--accent)]" />
-        </svg>
-    );
-};
-
-
-const BrandsArchive: React.FC<BrandsArchiveProps> = ({ selectedBrandId, onClose, onSelect }) => {
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-    // Wheel hijacking for horizontal scroll
-    useEffect(() => {
-        const container = scrollContainerRef.current;
-        if (!container) return;
-
-        const handleWheel = (e: WheelEvent) => {
-             // If selected, allow normal interaction if inside content?
-             // But content is small.
-             // We can lock horizontal scroll on focus if desired.
-             // "Horizontal genome motion pauses" -> user stops scrolling.
-
-             if (selectedBrandId) return; // Pause scroll logic when focused?
-
-             e.preventDefault();
-             container.scrollLeft += e.deltaY;
-        };
-
-        container.addEventListener('wheel', handleWheel, { passive: false });
-
-        return () => {
-            container.removeEventListener('wheel', handleWheel);
-        };
-    }, [selectedBrandId]);
-
-    // Calculate width for strands
-    const totalWidth = BRANDS.length * 100 + (selectedBrandId ? 500 : 0) + 500; // Buffer
-
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="w-full h-full relative flex items-center overflow-hidden bg-[#050505]"
-        >
-            {/* Horizontal Scrolling Container */}
-            <div
-                ref={scrollContainerRef}
-                className="w-full h-full overflow-x-auto overflow-y-hidden flex items-center custom-scrollbar relative pl-24 pr-24 hide-scrollbar"
-                style={{ scrollBehavior: 'smooth' }}
-            >
-                {/* Strands Background */}
-                <SimpleStrands width={Math.max(2000, totalWidth)} />
-
-                <div className="flex items-center h-[600px] relative z-10 pl-12 pr-12 gap-0">
-                    {BRANDS.map((brand) => (
-                        <BrandRung
-                            key={brand.id}
-                            brand={brand}
-                            isSelected={selectedBrandId === brand.id}
-                            onSelect={() => onSelect?.(brand.id === selectedBrandId ? '' : brand.id)}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* Scroll Indicator */}
-            {!selectedBrandId && (
-                <div className="absolute bottom-8 right-8 text-[10px] text-white/30 tracking-widest animate-pulse pointer-events-none">
-                    SCROLL &gt;&gt;&gt;
-                </div>
-            )}
-
-             {/* Back / Close Focus Button */}
-             {selectedBrandId && (
+            {/* Close Button (Global) */}
+            {!selectedCard && (
                 <button
-                    onClick={() => onSelect?.('')}
-                    className="absolute top-8 right-8 text-[10px] text-[var(--accent)] tracking-widest border border-[var(--accent)] px-4 py-2 hover:bg-[var(--accent)] hover:text-black transition-colors uppercase z-50"
+                    onClick={onClose}
+                    className="absolute top-0 right-8 lg:right-12 p-4 text-white/30 hover:text-[var(--accent)] transition-colors z-20"
+                    aria-label="Close Archive"
                 >
-                    Close Focus
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
-             )}
+            )}
 
-        </motion.div>
+            <div className="relative z-10 w-full h-full flex flex-col justify-center">
+                <AnimatePresence mode="wait">
+                    {selectedCard ? (
+                        <motion.div
+                            key="detail"
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 50 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                            className="w-full h-full flex items-center"
+                        >
+                            <BrandDetail card={selectedCard} onClose={() => setSelectedCard(null)} />
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="grid"
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -50 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                            className="w-full h-full flex flex-col justify-center"
+                        >
+                             <div className="mb-8">
+                                <h1 className="text-3xl font-bold tracking-tighter text-white mb-1">BRANDS</h1>
+                                <div className="text-[10px] tracking-[0.3em] text-[var(--accent)] uppercase font-bold">
+                                    Strategic Identifiers
+                                </div>
+                            </div>
+
+                            {/* Horizontal Scroll Container */}
+                            <div className="w-full overflow-x-auto pb-12 custom-scrollbar flex items-center gap-6 px-1">
+                                {CARDS.map((card, index) => (
+                                    <BrandCard
+                                        key={card.id}
+                                        card={card}
+                                        index={index}
+                                        onClick={() => setSelectedCard(card)}
+                                    />
+                                ))}
+                                {/* Padding to allow last card to be fully seen/centered if needed */}
+                                <div className="w-12 flex-shrink-0" />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </div>
     );
 };
 
