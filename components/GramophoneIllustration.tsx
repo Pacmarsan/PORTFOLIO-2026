@@ -87,8 +87,9 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
                     strokeDasharray={i % 2 === 0 ? "none" : "10 5"}
                 />
             ))}
-            <circle cx="0" cy="0" r="15" fill={color} fillOpacity="0.1" />
-            <circle cx="0" cy="0" r="2" fill="white" />
+
+            {/* Spindle */}
+            <circle cx="0" cy="0" r="3" fill="#fff" />
         </g>
       </svg>
     </div>

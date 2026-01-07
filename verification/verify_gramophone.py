@@ -1,74 +1,61 @@
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import sync_playwright
 import time
 
-def verify_gramophone():
+def run():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        # Using a large height to enable scrolling
-        context = browser.new_context(viewport={"width": 1920, "height": 1080})
-        page = context.new_page()
-
-        # Capture console logs
-        page.on("console", lambda msg: print(f"BROWSER CONSOLE: {msg.text}"))
-        page.on("pageerror", lambda err: print(f"BROWSER ERROR: {err}"))
-
-        print("Navigating to app...")
-        page.goto("http://localhost:3000")
-
-        # Wait for initial load
-        page.wait_for_timeout(3000)
-
-        # 1. Enter the Portfolio
-        enter_button = page.get_by_text("ENTER PROTOCOL")
-        if enter_button.is_visible():
-            print("Clicking Enter Protocol...")
-            enter_button.click()
-            page.wait_for_timeout(2000)
-
-        # 2. Scroll to "BRANDS" phase
-        print("Scrolling to BRANDS phase...")
-        doc_height = page.evaluate("document.body.scrollHeight")
-        viewport_height = page.evaluate("window.innerHeight")
-        scrollable_height = doc_height - viewport_height
-        target_scroll = scrollable_height * 0.39
-        page.evaluate(f"window.scrollTo(0, {target_scroll})")
-        page.wait_for_timeout(3000)
-
-        # 3. Locate the Gramophone Illustration
-        vinyl_group = page.locator("#vinyl-group")
-        print("Checking for Vinyl Group...")
-        expect(vinyl_group).to_be_visible(timeout=5000)
-        print("SUCCESS: Vinyl Group found.")
-
-        # 4. Interact: Click a Card
-        cards = page.locator(".holo-card-group")
-        count = cards.count()
-        print(f"Found {count} HoloCards")
-
-        if count > 0:
-            print("Clicking the top-most card (last in DOM)...")
-            # Force click because the element is animating (unstable)
-            cards.last.click(force=True)
-
-            # Wait for animation (1s duration)
+        page = browser.new_page()
+        try:
+            page.goto("http://localhost:3000")
             page.wait_for_timeout(3000)
 
-            # Check if metadata panel appeared
-            print("Checking for Expanded View...")
-            back_button = page.get_by_text("Back to List")
+            # Click Enter Protocol
+            btn = page.locator('button:has-text("Enter Protocol")')
+            if btn.is_visible():
+                btn.click()
+                print("Clicked Enter Protocol")
+                page.wait_for_timeout(3000)
 
-            try:
-                expect(back_button).to_be_visible(timeout=5000)
-                print("SUCCESS: Metadata Panel revealed.")
+            # Scroll to Brands (approx 35-40% of page)
+            # 600vh total. Brands is 3rd phase (index 2).
+            # 0-16%: Hero
+            # 16-32%: Worlds
+            # 32-48%: Brands
+            # Let's scroll to 38%
 
-                # Take screenshot of Focused State
-                print("Taking screenshot of Focused State...")
-                page.screenshot(path="verification/gramophone_focus.png")
-            except Exception as e:
-                print(f"FAILURE: Metadata Panel not found. {e}")
-                page.screenshot(path="verification/gramophone_focus_fail.png")
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight * 0.38)")
+            page.wait_for_timeout(3000)
 
-        browser.close()
+            page.screenshot(path="verification/1_brands_scroll.png")
+            print("Captured scroll screenshot")
+
+            # Check for the image in the DOM
+            # The component GramophoneIllustration should be mounted.
+            # It contains <image href="/assets/ziro-new.png" ... />
+
+            # Note: in HTML, href might be xlink:href or just href. Playwright locator 'image' matches <image> tag.
+            # We look for attribute href containing ziro-new.png
+
+            images = page.locator('image')
+            count = images.count()
+            print(f"Found {count} SVG images")
+
+            found = False
+            for i in range(count):
+                href = images.nth(i).get_attribute('href')
+                print(f"Image {i} href: {href}")
+                if href and 'ziro-new.png' in href:
+                    found = True
+
+            if found:
+                print("SUCCESS: Verified ziro-new.png is rendered in the SVG")
+            else:
+                print("FAILURE: ziro-new.png not found in SVG images")
+
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            browser.close()
 
 if __name__ == "__main__":
-    verify_gramophone()
+    run()
