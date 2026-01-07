@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { animate, stagger } from 'animejs';
 import { Phase } from '../types';
 import { BubbleMergeIllustration } from './BubbleMergeIllustration';
-import GramophoneIllustration from './GramophoneIllustration';
 
 interface PhaseIllustrationProps {
   activePhase: Phase;
@@ -128,15 +127,7 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase, onIn
         return <BlockRevealIllustration color={color} imageSrc="/assets/studio-limitless-logo.png" />;
 
       case 'brands': // Content & AI Ads
-        return (
-          <GramophoneIllustration
-            color={color}
-            isExpanded={!!isExpanded}
-            onInteract={onInteract || (() => {})}
-            onBrandSelect={onBrandSelect || (() => {})}
-            selectedBrandId={selectedBrandId || null}
-          />
-        );
+        return <BlockRevealIllustration color={color} imageSrc="/assets/ziro-robot-3d.png" />;
 
       case 'experiences': // Interface Planes
         return (
