@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
-import { BRANDS } from './BrandsArchive';
-import { HoloCard } from './HoloCard';
 
 interface GramophoneIllustrationProps {
   color: string;
@@ -19,195 +17,7 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
   selectedBrandId,
 }) => {
   const vinylRef = useRef<SVGGElement>(null);
-  const orbitalRef = useRef<any>({ angle: 0 });
-  const [cards, setCards] = useState<any[]>([]);
-  const animRef = useRef<any>(null);
   const vinylAnimRef = useRef<any>(null);
-  const prevSelectedRef = useRef<string | null>(null);
-
-  // Geometry Constants
-  const RADIUS_X = 140;
-  const RADIUS_Y = 60;
-  const CENTER_Y_OFFSET = -20;
-
-  // Initialize Cards
-  useEffect(() => {
-    const initialCards = BRANDS.map((brand, i) => {
-        const angleStep = (Math.PI * 2) / BRANDS.length;
-        const angle = i * angleStep;
-        return {
-            ...brand,
-            angleOffset: angle,
-            x: 0,
-            y: 0,
-            scale: 1,
-            opacity: 1,
-            zIndex: 0
-        };
-    });
-    setCards(initialCards);
-  }, []);
-
-  // --- ORBITAL ANIMATION LOOP ---
-  useEffect(() => {
-    try {
-        // Handle "Open" Transition and "Idle" Loop
-        // If selected, we stop the loop and let the Focus Effect handle it.
-        // If NOT selected, we want the loop running.
-
-        // Check transition from Selected -> Null (Closing)
-        const isClosing = prevSelectedRef.current !== null && selectedBrandId === null;
-
-        if (selectedBrandId) {
-            // PAUSE LOOP
-            if (animRef.current && typeof animRef.current.pause === 'function') {
-                animRef.current.pause();
-            }
-        } else {
-             // START/RESUME LOOP
-             // If we are just starting or resuming from pause, play.
-             if (animRef.current && typeof animRef.current.play === 'function') {
-                 // But wait, if we are "Closing", we shouldn't snap.
-                 // The Focus Effect (below) will handle the animation *back* to orbit state.
-                 // We should only resume the loop AFTER that animation is done?
-                 // Or we can let the loop resume but we need to match the values.
-
-                 // Strategy: The loop updates `orbitalRef.current.angle`.
-                 // When we resume, it continues from where it left off.
-                 // This ensures the cards are at the correct "orbit positions" relative to time.
-                 // BUT their visual state (React State) is currently "Focused" (center screen).
-                 // If we just play(), the next onUpdate will calculate orbit positions and SNAP them there.
-
-                 if (!isClosing) {
-                    animRef.current.play();
-                 }
-             }
-        }
-
-        if (!animRef.current) {
-            animRef.current = animate(orbitalRef.current, {
-              angle: Math.PI * 2,
-              duration: 25000,
-              easing: 'linear',
-              loop: true,
-              autoplay: !selectedBrandId,
-              onUpdate: () => {
-                 // If we are currently closing (animating back), don't let the loop override?
-                 // We need a flag or logic here.
-                 // Actually, simpler: The loop drives the "Ideal Orbit State".
-                 // We can render that directly if no transition is happening.
-
-                 const currentGlobalAngle = orbitalRef.current.angle;
-
-                 setCards(prevCards => prevCards.map(card => {
-                    const theta = currentGlobalAngle + card.angleOffset;
-
-                    const x = Math.cos(theta) * RADIUS_X;
-                    const y = Math.sin(theta) * RADIUS_Y + CENTER_Y_OFFSET;
-                    const sinVal = Math.sin(theta);
-
-                    const scale = 1 + (sinVal * 0.3);
-                    const opacity = 0.5 + ((sinVal + 1) / 2) * 0.5;
-                    const zIndex = sinVal;
-
-                    return { ...card, x, y, scale, opacity, zIndex };
-                 }));
-              }
-            });
-        }
-    } catch (err) {
-        console.error("AnimeJS Orbital Error:", err);
-    }
-  }, [selectedBrandId]);
-
-  // --- TRANSITION MANAGER (Focus & Unfocus) ---
-  useEffect(() => {
-    // If state hasn't changed effectively, do nothing (or init)
-    if (prevSelectedRef.current === selectedBrandId) return;
-
-    const isOpening = !!selectedBrandId;
-    const isClosing = !selectedBrandId && prevSelectedRef.current !== null;
-
-    prevSelectedRef.current = selectedBrandId;
-
-    if (!isOpening && !isClosing) return;
-
-    try {
-        const targets = cards.map(c => ({...c}));
-
-        // If Opening: Animate TO Focus Targets
-        // If Closing: Animate FROM Focus Targets TO Orbital Targets (Current calculated orbit)
-
-        let animationParams = {};
-
-        if (isOpening) {
-             animationParams = {
-                x: (t: any) => (t.id === selectedBrandId ? 0 : t.x),
-                y: (t: any) => (t.id === selectedBrandId ? 0 : t.y),
-                scale: (t: any) => (t.id === selectedBrandId ? 2.0 : 0.5),
-                opacity: (t: any) => (t.id === selectedBrandId ? 1 : 0.1),
-                duration: 1000,
-                easing: 'outExpo'
-             };
-        } else {
-             // CLOSING
-             // We want to animate back to where they *should* be in the orbit.
-             // We can calculate the target destination based on current `orbitalRef.angle`.
-
-             animationParams = {
-                 x: (t: any) => {
-                     const theta = orbitalRef.current.angle + t.angleOffset;
-                     return Math.cos(theta) * RADIUS_X;
-                 },
-                 y: (t: any) => {
-                     const theta = orbitalRef.current.angle + t.angleOffset;
-                     return Math.sin(theta) * RADIUS_Y + CENTER_Y_OFFSET;
-                 },
-                 scale: (t: any) => {
-                     const theta = orbitalRef.current.angle + t.angleOffset;
-                     const sinVal = Math.sin(theta);
-                     return 1 + (sinVal * 0.3);
-                 },
-                 opacity: (t: any) => {
-                     const theta = orbitalRef.current.angle + t.angleOffset;
-                     const sinVal = Math.sin(theta);
-                     return 0.5 + ((sinVal + 1) / 2) * 0.5;
-                 },
-                 duration: 800,
-                 easing: 'inOutQuad', // Smooth return
-                 complete: () => {
-                     // Once back in place, resume the orbit loop
-                     if (animRef.current) animRef.current.play();
-                 }
-             };
-        }
-
-        const anim = animate(targets, {
-            ...animationParams,
-            onUpdate: () => {
-                setCards(prev => prev.map((item, index) => {
-                    const target = targets[index];
-                    return {
-                        ...item,
-                        x: target.x,
-                        y: target.y,
-                        scale: target.scale,
-                        opacity: target.opacity
-                    };
-                }));
-            }
-        });
-
-        return () => {
-            if (anim && typeof anim.pause === 'function') anim.pause();
-        };
-
-    } catch (err) {
-        console.error("AnimeJS Transition Error:", err);
-    }
-
-  }, [selectedBrandId, cards]); // Depend on cards to get current state
-
 
   // Vinyl Rotation Logic
   useEffect(() => {
@@ -222,28 +32,19 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
                 loop: true
             });
         }
-
-        if (selectedBrandId) {
-             if (vinylAnimRef.current && typeof vinylAnimRef.current.pause === 'function') vinylAnimRef.current.pause();
-        } else {
-             // Resume vinyl only if NOT closing (wait for return animation?)
-             // Actually vinyl can start spinning immediately, it looks cool.
-             if (vinylAnimRef.current && typeof vinylAnimRef.current.play === 'function') vinylAnimRef.current.play();
-        }
     } catch (err) {
         // Ignore
     }
-  }, [selectedBrandId]);
 
-
-  const sortedCards = [...cards].sort((a, b) => {
-      if (a.id === selectedBrandId) return 1000;
-      if (b.id === selectedBrandId) return -1000;
-      return a.zIndex - b.zIndex;
-  });
+    return () => {
+        if (vinylAnimRef.current && typeof vinylAnimRef.current.pause === 'function') {
+            vinylAnimRef.current.pause();
+        }
+    };
+  }, []);
 
   return (
-    <div className="w-full h-full flex items-center justify-center relative">
+    <div className="w-full h-full flex items-center justify-center relative pointer-events-none">
       <svg
         viewBox="-200 -200 400 400"
         className="w-[120%] h-[120%] lg:w-full lg:h-full max-w-[800px] max-h-[800px]"
@@ -261,7 +62,7 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
         </defs>
 
         {/* --- BASE LAYER --- */}
-        <g id="base-layer" opacity={selectedBrandId ? 0.2 : 0.6} style={{ transition: 'opacity 1s' }}>
+        <g id="base-layer" opacity={0.6}>
            <ellipse cx="0" cy="0" rx="105" ry="105" fill="#050505" stroke={color} strokeWidth="1" strokeOpacity="0.3" />
            <path
              d="M 120 -80 L 130 -90 L 140 -80 L 140 50 L 130 60 L 120 50 Z"
@@ -273,7 +74,7 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
         </g>
 
         {/* --- KINETIC LAYER --- */}
-        <g ref={vinylRef} id="vinyl-group" opacity={selectedBrandId ? 0.2 : 1} style={{ transition: 'opacity 1s' }}>
+        <g ref={vinylRef} id="vinyl-group">
             <circle cx="0" cy="0" r="100" fill="#000" stroke="none" />
             {[20, 35, 50, 65, 80, 90, 95].map((r, i) => (
                 <circle
@@ -289,27 +90,6 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
             <circle cx="0" cy="0" r="15" fill={color} fillOpacity="0.1" />
             <circle cx="0" cy="0" r="2" fill="white" />
         </g>
-
-        {/* --- ORBITAL LAYER --- */}
-        {sortedCards.map((card) => (
-             <HoloCard
-               key={card.id}
-               x={card.x}
-               y={card.y}
-               scale={card.scale}
-               opacity={card.opacity}
-               logoUrl={card.image}
-               label={card.subtext}
-               color={card.color}
-               isFocused={selectedBrandId === card.id}
-               onClick={() => {
-                   if (selectedBrandId === card.id) return;
-                   onInteract();
-                   onBrandSelect(card.id);
-               }}
-             />
-        ))}
-
       </svg>
     </div>
   );
