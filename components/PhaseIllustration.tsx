@@ -128,18 +128,15 @@ const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase, onIn
         return <BlockRevealIllustration color={color} imageSrc="/assets/studio-limitless-logo.png" />;
 
       case 'brands': // Content & AI Ads
-        if (isExpanded) {
-            return (
-              <GramophoneIllustration
-                color={color}
-                isExpanded={!!isExpanded}
-                onInteract={onInteract || (() => {})}
-                onBrandSelect={onBrandSelect || (() => {})}
-                selectedBrandId={selectedBrandId || null}
-              />
-            );
-        }
-        return <BubbleMergeIllustration color={color} imageSrc="/assets/ziro-robot.png" />;
+        return (
+          <GramophoneIllustration
+            color={color}
+            isExpanded={!!isExpanded}
+            onInteract={onInteract || (() => {})}
+            onBrandSelect={onBrandSelect || (() => {})}
+            selectedBrandId={selectedBrandId || null}
+          />
+        );
 
       case 'experiences': // Interface Planes
         return (
