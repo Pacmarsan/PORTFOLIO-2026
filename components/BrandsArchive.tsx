@@ -20,7 +20,7 @@ export const BRANDS: BrandData[] = [
     subtext: 'AUTONOMOUS LOGISTICS',
     descriptor: 'BRAND IDENTITY & SYSTEM DESIGN',
     description: 'A complete visual overhaul for the world\'s leading autonomous delivery fleet. The identity focuses on precision, reliability, and the seamless integration of AI into urban environments.',
-    image: '/assets/ziro-robot.png',
+    image: '/assets/ziro-new.png',
     color: '#00f5ff',
     ringIndex: 0
   },
@@ -70,7 +70,7 @@ export const BRANDS: BrandData[] = [
     subtext: 'ORBITAL CONSTRUCTION',
     descriptor: 'CORPORATE BRANDING',
     description: 'A heavy industrial brand for zero-gravity environments. Robust, high-contrast, and safety-focused visual systems.',
-    image: '/assets/ziro-robot.png',
+    image: '/assets/ziro-new.png',
     color: '#ff5e5e',
     ringIndex: 5
   },

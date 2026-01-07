@@ -274,8 +274,27 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
 
         {/* --- KINETIC LAYER --- */}
         <g ref={vinylRef} id="vinyl-group" opacity={selectedBrandId ? 0.2 : 1} style={{ transition: 'opacity 1s' }}>
-            <circle cx="0" cy="0" r="100" fill="#000" stroke="none" />
-            {[20, 35, 50, 65, 80, 90, 95].map((r, i) => (
+            {/* Vinyl Body */}
+            <circle cx="0" cy="0" r="100" fill="#050505" stroke="none" />
+
+            {/* Brand Mascot / Label Center */}
+            <defs>
+                <clipPath id="center-label-clip">
+                    <circle cx="0" cy="0" r="30" />
+                </clipPath>
+            </defs>
+            <image
+                href="/assets/ziro-new.png"
+                x="-30" y="-30" width="60" height="60"
+                clipPath="url(#center-label-clip)"
+                preserveAspectRatio="xMidYMid slice"
+                opacity="0.9"
+            />
+            {/* Label Gloss */}
+            <circle cx="0" cy="0" r="30" fill="url(#gloss-gradient)" opacity="0.3" style={{ mixBlendMode: 'overlay' }} />
+
+            {/* Grooves */}
+            {[35, 50, 65, 80, 90, 95].map((r, i) => (
                 <circle
                     key={r}
                     cx="0" cy="0" r={r}
@@ -286,8 +305,9 @@ const GramophoneIllustration: React.FC<GramophoneIllustrationProps> = ({
                     strokeDasharray={i % 2 === 0 ? "none" : "10 5"}
                 />
             ))}
-            <circle cx="0" cy="0" r="15" fill={color} fillOpacity="0.1" />
-            <circle cx="0" cy="0" r="2" fill="white" />
+
+            {/* Spindle */}
+            <circle cx="0" cy="0" r="3" fill="#fff" />
         </g>
 
         {/* --- ORBITAL LAYER --- */}
