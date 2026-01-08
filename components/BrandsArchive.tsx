@@ -15,6 +15,7 @@ export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => {
   let image: string | undefined;
   if (i === 0) image = '/assets/card-1-visual.png';
   if (i === 1) image = '/assets/card-2-visual.jpg';
+  if (i === 2) image = '/assets/special-image.png';
   if (i === 4) image = '/assets/card-5-visual.png';
 
   return {
