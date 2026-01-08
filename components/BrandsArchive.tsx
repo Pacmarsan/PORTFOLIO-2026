@@ -11,12 +11,18 @@ export interface CardData {
   image?: string;
 }
 
-export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => ({
-  id: `card-${i + 1}`,
-  title: `Card ${i + 1}`,
-  subtext: `System Entity ${i + 1} // Description Placeholder`,
-  image: i === 0 ? '/assets/card-1-visual.png' : undefined
-}));
+export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => {
+  let image: string | undefined;
+  if (i === 0) image = '/assets/card-1-visual.png';
+  if (i === 1) image = '/assets/card-2-visual.jpg';
+
+  return {
+    id: `card-${i + 1}`,
+    title: `Card ${i + 1}`,
+    subtext: `System Entity ${i + 1} // Description Placeholder`,
+    image
+  };
+});
 
 // --- COMPONENTS ---
 
