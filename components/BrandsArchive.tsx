@@ -19,7 +19,7 @@ export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => {
 
   return {
     id: `card-${i + 1}`,
-    title: `Card ${i + 1}`,
+    title: i === 2 ? 'Neon City' : `Card ${i + 1}`,
     subtext: `System Entity ${i + 1} // Description Placeholder`,
     image
   };
