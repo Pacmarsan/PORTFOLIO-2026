@@ -10,6 +10,7 @@ import PhaseIllustration from './components/PhaseIllustration';
 import HeroIdentity from './components/HeroIdentity';
 import WorldsArchive from './components/WorldsArchive';
 import BrandsArchive from './components/BrandsArchive';
+import ExperiencesArchive from './components/ExperiencesArchive';
 
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -100,7 +101,7 @@ const App: React.FC = () => {
   }, [activePhase.color, isInitializing]);
 
   const handleInteraction = () => {
-    if (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands') {
+    if (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands' || activePhase.name === 'experiences') {
       setExpandedPhase(activePhase.name);
     }
   };
@@ -334,6 +335,9 @@ const App: React.FC = () => {
                            onClose={() => { setExpandedPhase(null); setSelectedBrandId(null); }}
                            onSelect={(id) => setSelectedBrandId(id || null)}
                         />
+                    )}
+                    {expandedPhase === 'experiences' && (
+                        <ExperiencesArchive onClose={() => setExpandedPhase(null)} />
                     )}
                 </motion.div>
 
