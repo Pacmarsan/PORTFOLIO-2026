@@ -11,14 +11,68 @@ export interface CardData {
   image?: string;
 }
 
-export const CARDS: CardData[] = Array.from({ length: 10 }, (_, i) => {
-  return {
-    id: `card-${i + 1}`,
-    title: `Card ${i + 1}`,
-    subtext: `System Entity ${i + 1} // Description Placeholder`,
-    image: undefined
-  };
-});
+export const CARDS: CardData[] = [
+  {
+    id: 'card-1',
+    title: 'Card 1',
+    subtext: 'System Entity 1 // Description Placeholder',
+    image: '/assets/brands/brand-card-01.png'
+  },
+  {
+    id: 'card-2',
+    title: 'Card 2',
+    subtext: 'System Entity 2 // Description Placeholder',
+    image: '/assets/brands/brand-card-02.png'
+  },
+  {
+    id: 'card-3',
+    title: 'Card 3',
+    subtext: 'System Entity 3 // Description Placeholder',
+    image: '/assets/brands/brand-card-03.jpg'
+  },
+  {
+    id: 'card-4',
+    title: 'Card 4',
+    subtext: 'System Entity 4 // Description Placeholder',
+    image: '/assets/brands/brand-card-04.png'
+  },
+  {
+    id: 'card-5',
+    title: 'Card 5',
+    subtext: 'System Entity 5 // Description Placeholder',
+    image: '/assets/brands/brand-card-05.png'
+  },
+  {
+    id: 'card-6',
+    title: 'Card 6',
+    subtext: 'System Entity 6 // Description Placeholder',
+    image: '/assets/brands/brand-card-06.png'
+  },
+  {
+    id: 'card-7',
+    title: 'Card 7',
+    subtext: 'System Entity 7 // Description Placeholder',
+    image: '/assets/brands/brand-card-07.png'
+  },
+  {
+    id: 'card-8',
+    title: 'Card 8',
+    subtext: 'System Entity 8 // Description Placeholder',
+    image: '/assets/brands/brand-card-08.jpg'
+  },
+  {
+    id: 'card-9',
+    title: 'Card 9',
+    subtext: 'System Entity 9 // Description Placeholder',
+    image: '/assets/brands/brand-card-09.png'
+  },
+  {
+    id: 'card-10',
+    title: 'Card 10',
+    subtext: 'System Entity 10 // Description Placeholder',
+    image: '/assets/brands/brand-card-10.png'
+  }
+];
 
 // --- COMPONENTS ---
 
