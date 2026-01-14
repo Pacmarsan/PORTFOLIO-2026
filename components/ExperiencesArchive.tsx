@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// Experiences Archive - Revamped Skill Tree Implementation
 import { motion, AnimatePresence } from 'framer-motion';
 import TerminalText from './TerminalText';
 
@@ -18,6 +19,7 @@ interface TimelineNodeData {
 interface SkillNodeData {
   id: string;
   label: string;
+  fullText: string;
   category: 'code' | 'design' | 'ai' | 'soft';
   x: number;
   y: number;
@@ -159,31 +161,31 @@ const TIMELINE_DATA: TimelineNodeData[] = [
 
 const SKILL_NODES: SkillNodeData[] = [
   // Root
-  { id: 'root', label: 'CORE', category: 'soft', x: 50, y: 10, connections: ['code', 'design', 'ai', 'soft-skills'] },
+  { id: 'root', label: 'CORE', fullText: '', category: 'soft', x: 50, y: 5, connections: ['code', 'design', 'ai', 'soft-skills'] },
 
   // Categories
-  { id: 'code', label: 'DEV', category: 'code', x: 20, y: 30, connections: ['react', 'html', 'motion', 'supabase'] },
-  { id: 'design', label: 'ART', category: 'design', x: 40, y: 30, connections: ['manga', 'corel'] },
-  { id: 'ai', label: 'AI', category: 'ai', x: 60, y: 30, connections: ['gen-ai-tool', 'prompt'] },
-  { id: 'soft-skills', label: 'LEAD', category: 'soft', x: 80, y: 30, connections: ['leadership', 'problem'] },
+  { id: 'code', label: 'DEV', fullText: '', category: 'code', x: 20, y: 25, connections: ['react', 'html', 'motion', 'supabase'] },
+  { id: 'design', label: 'ART', fullText: '', category: 'design', x: 40, y: 25, connections: ['manga', 'corel'] },
+  { id: 'ai', label: 'AI', fullText: '', category: 'ai', x: 60, y: 25, connections: ['gen-ai-tool', 'prompt'] },
+  { id: 'soft-skills', label: 'LEAD', fullText: '', category: 'soft', x: 80, y: 25, connections: ['leadership', 'problem'] },
 
   // Leaves - Code
-  { id: 'react', label: 'React / Next.js', category: 'code', x: 10, y: 50, connections: [] },
-  { id: 'html', label: 'HTML5 / CSS3', category: 'code', x: 15, y: 60, connections: [] },
-  { id: 'motion', label: 'Animation', category: 'code', x: 25, y: 50, connections: [] },
-  { id: 'supabase', label: 'Supabase / API', category: 'code', x: 30, y: 60, connections: [] },
+  { id: 'react', label: 'React Stack', fullText: 'React, Next.js, JavaScript (ES6+)', category: 'code', x: 10, y: 45, connections: [] },
+  { id: 'html', label: 'Frontend UI', fullText: 'HTML5, CSS3, Responsive Design', category: 'code', x: 15, y: 55, connections: [] },
+  { id: 'motion', label: 'Animation', fullText: 'Framer Motion, motion.dev, anime.js, Web Animations API', category: 'code', x: 25, y: 45, connections: [] },
+  { id: 'supabase', label: 'Backend', fullText: 'Supabase, API Integration, Frontend Performance Optimization', category: 'code', x: 30, y: 55, connections: [] },
 
   // Leaves - Design
-  { id: 'manga', label: 'Manga / Story', category: 'design', x: 35, y: 50, connections: [] },
-  { id: 'corel', label: 'Corel / PixelLab', category: 'design', x: 45, y: 50, connections: [] },
+  { id: 'manga', label: 'Manga Art', fullText: 'Manga Art, Storyboarding, Graphic Design', category: 'design', x: 35, y: 45, connections: [] },
+  { id: 'corel', label: 'Design Tools', fullText: 'CorelDraw, PixelLab', category: 'design', x: 45, y: 55, connections: [] },
 
   // Leaves - AI
-  { id: 'gen-ai-tool', label: 'Generative AI', category: 'ai', x: 55, y: 50, connections: [] },
-  { id: 'prompt', label: 'Prompt Eng.', category: 'ai', x: 65, y: 50, connections: [] },
+  { id: 'gen-ai-tool', label: 'AI Creative', fullText: 'AI Creative Tools, Generative AI Applications', category: 'ai', x: 55, y: 45, connections: [] },
+  { id: 'prompt', label: 'Prompt Eng.', fullText: 'AI Prompt Engineering & Design', category: 'ai', x: 65, y: 55, connections: [] },
 
   // Leaves - Soft
-  { id: 'leadership', label: 'Leadership', category: 'soft', x: 75, y: 50, connections: [] },
-  { id: 'problem', label: 'Problem Solving', category: 'soft', x: 85, y: 50, connections: [] },
+  { id: 'leadership', label: 'Leadership', fullText: 'Team Leadership, Collaboration, Communication', category: 'soft', x: 75, y: 45, connections: [] },
+  { id: 'problem', label: 'Problem Solving', fullText: 'Problem Solving, Quick Decision-Making', category: 'soft', x: 85, y: 55, connections: [] },
 ];
 
 const CERTIFICATES: CertificateData[] = [
@@ -306,7 +308,8 @@ const TimelineMap: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({
 };
 
 const SkillTreeIllustration: React.FC = () => {
-    // A simplified tree visualization
+    const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+
     return (
         <div className="relative w-full h-[600px] mb-24">
             <svg className="w-full h-full overflow-visible">
@@ -338,6 +341,10 @@ const SkillTreeIllustration: React.FC = () => {
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 1 + (i * 0.05) }}
+                        onMouseEnter={() => setHoveredNode(node.id)}
+                        onMouseLeave={() => setHoveredNode(null)}
+                        className="cursor-pointer"
+                        data-testid={`skill-node-${node.id}`}
                      >
                          <circle cx={`${node.x}%`} cy={`${node.y}%`} r="3" fill="var(--accent)" />
                          <rect
@@ -355,13 +362,42 @@ const SkillTreeIllustration: React.FC = () => {
                             fontSize="10"
                             fontFamily="monospace"
                             className="uppercase tracking-widest font-bold"
-                            fillOpacity="0.7"
+                            fillOpacity={hoveredNode === node.id ? 1 : 0.7}
+                            style={{ transition: 'fill-opacity 0.3s' }}
                          >
                              {node.label}
                          </text>
                      </motion.g>
                  ))}
             </svg>
+
+            {/* Tooltip Overlay */}
+            <AnimatePresence>
+                {hoveredNode && (() => {
+                    const node = SKILL_NODES.find(n => n.id === hoveredNode);
+                    if (!node || !node.fullText) return null;
+                    return (
+                        <motion.div
+                            key="tooltip"
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute z-20 pointer-events-none bg-black/90 border border-[var(--accent)]/30 backdrop-blur-md px-4 py-3 rounded max-w-xs text-center shadow-[0_0_15px_rgba(0,255,156,0.1)]"
+                            style={{
+                                left: `calc(${node.x}% - 100px)`, // Center approx
+                                top: `calc(${node.y}% + 30px)`,
+                                width: '200px'
+                            }}
+                        >
+                            <div className="text-[9px] tracking-widest text-[var(--accent)] uppercase font-bold mb-1">{node.label}</div>
+                            <div className="text-xs text-white/80 leading-relaxed font-mono">
+                                {node.fullText}
+                            </div>
+                        </motion.div>
+                    );
+                })()}
+            </AnimatePresence>
         </div>
     )
 }
