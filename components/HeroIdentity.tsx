@@ -47,14 +47,14 @@ const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         {/* Name & Title */}
         <div>
-          <h1 className="text-3xl lg:text-5xl font-bold tracking-tighter text-white mb-2 leading-tight">
+          <h1 className="text-2xl lg:text-5xl font-bold tracking-tight lg:tracking-tighter text-white mb-2 leading-normal lg:leading-tight">
             <TerminalText text="Pascal Mario Alexander Onwuasoanya" delay={0} />
           </h1>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="text-xs lg:text-sm tracking-[0.2em] lg:tracking-[0.3em] text-[var(--accent)] uppercase font-bold leading-relaxed"
+            className="text-[10px] lg:text-sm tracking-[0.15em] lg:tracking-[0.3em] text-[var(--accent)] uppercase font-bold leading-relaxed"
           >
             Creative Architect · World Builder · Brand Master
           </motion.div>

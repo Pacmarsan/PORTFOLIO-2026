@@ -34,7 +34,7 @@ def verify_mobile(page):
     expect(overlay_text).to_be_visible()
 
     print("Taking screenshot of Hero Overlay...")
-    page.screenshot(path="verification/mobile_hero_v5.png")
+    page.screenshot(path="verification/mobile_hero_v6.png")
 
     # Close it
     print("Closing overlay...")

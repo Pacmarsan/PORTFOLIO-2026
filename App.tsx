@@ -297,7 +297,7 @@ const App: React.FC = () => {
                     <div className="mt-8 lg:mt-12 flex items-center gap-4">
                       <button
                         onClick={() => setExpandedPhase(activePhase.name)}
-                        className="px-6 py-3 lg:py-2 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)] w-full lg:hidden"
+                        className="px-6 py-3 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)] w-full block lg:hidden"
                       >
                         EXPLORE {activePhase.name.toUpperCase()}
                       </button>
