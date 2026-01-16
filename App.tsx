@@ -12,6 +12,7 @@ import WorldsArchive from './components/WorldsArchive';
 import BrandsArchive from './components/BrandsArchive';
 import ExperiencesArchive from './components/ExperiencesArchive';
 import ProductsArchive from './components/ProductsArchive';
+import ContactsArchive from './components/ContactsArchive';
 
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -102,7 +103,7 @@ const App: React.FC = () => {
   }, [activePhase.color, isInitializing]);
 
   const handleInteraction = () => {
-    if (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands' || activePhase.name === 'experiences' || activePhase.name === 'products') {
+    if (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands' || activePhase.name === 'experiences' || activePhase.name === 'products' || activePhase.name === 'contacts') {
       setExpandedPhase(activePhase.name);
     }
   };
@@ -342,6 +343,9 @@ const App: React.FC = () => {
                     )}
                     {expandedPhase === 'products' && (
                         <ProductsArchive onClose={() => setExpandedPhase(null)} />
+                    )}
+                    {expandedPhase === 'contacts' && (
+                        <ContactsArchive onClose={() => setExpandedPhase(null)} />
                     )}
                 </motion.div>
 

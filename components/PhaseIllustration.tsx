@@ -116,7 +116,7 @@ const BlockRevealIllustration: React.FC<{ color: string; imageSrc: string }> = (
 const PhaseIllustration: React.FC<PhaseIllustrationProps> = ({ activePhase, onInteract, isExpanded, selectedBrandId, onBrandSelect }) => {
   const color = activePhase.color;
   // Make brands interactive too
-  const isInteractive = (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands' || activePhase.name === 'experiences' || activePhase.name === 'products') && !!onInteract;
+  const isInteractive = (activePhase.name === 'hero' || activePhase.name === 'worlds' || activePhase.name === 'brands' || activePhase.name === 'experiences' || activePhase.name === 'products' || activePhase.name === 'contacts') && !!onInteract;
 
   const renderIllustration = () => {
     switch (activePhase.name) {
