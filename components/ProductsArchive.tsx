@@ -216,7 +216,7 @@ const ProductCard: React.FC<{ product: ProductData; index: number }> = ({ produc
 
 const ProductsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
-    <div className="h-full w-full flex flex-col relative pl-4 lg:pl-12 overflow-hidden">
+    <div className="h-full w-full flex flex-col relative px-6 lg:pl-12 overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#ffb703] rounded-full blur-[150px] opacity-5 pointer-events-none" />
 

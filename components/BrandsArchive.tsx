@@ -230,7 +230,7 @@ const BrandsArchive: React.FC<BrandsArchiveProps> = ({ onClose }) => {
     const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
 
     return (
-        <div className="h-full w-full flex flex-col relative pl-8 lg:pl-16 pr-12 lg:pr-24 overflow-hidden">
+        <div className="h-full w-full flex flex-col relative px-6 lg:pl-16 lg:pr-24 overflow-hidden pt-20 lg:pt-0">
              {/* Background Decor */}
              <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--accent)] rounded-full blur-[150px] opacity-5 pointer-events-none" />
 
@@ -238,7 +238,7 @@ const BrandsArchive: React.FC<BrandsArchiveProps> = ({ onClose }) => {
             {!selectedCard && (
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-8 lg:right-12 p-4 text-white/30 hover:text-[var(--accent)] transition-colors z-20"
+                    className="absolute top-4 right-4 lg:top-0 lg:right-12 p-4 text-white/30 hover:text-[var(--accent)] transition-colors z-20"
                     aria-label="Close Archive"
                 >
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">

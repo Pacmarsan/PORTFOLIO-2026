@@ -27,7 +27,7 @@ const SectionBody: React.FC<{ children: React.ReactNode; delay?: number }> = ({ 
 
 const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
-    <div className="h-full w-full flex flex-col justify-center relative pl-8 lg:pl-16 pr-12 lg:pr-24 overflow-y-auto lg:overflow-visible">
+    <div className="h-full w-full flex flex-col justify-center relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto lg:overflow-visible pt-20 lg:pt-0 pb-20 lg:pb-0">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)] rounded-full blur-[100px] opacity-10 pointer-events-none" />
 
@@ -43,18 +43,18 @@ const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </svg>
       </button>
 
-      <div className="space-y-10 relative z-10 max-w-2xl">
+      <div className="space-y-8 lg:space-y-10 relative z-10 max-w-2xl">
 
         {/* Name & Title */}
         <div>
-          <h1 className="text-4xl lg:text-5xl font-bold tracking-tighter text-white mb-2">
+          <h1 className="text-3xl lg:text-5xl font-bold tracking-tighter text-white mb-2 leading-tight">
             <TerminalText text="Pascal Mario Alexander Onwuasoanya" delay={0} />
           </h1>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="text-sm tracking-[0.3em] text-[var(--accent)] uppercase font-bold"
+            className="text-xs lg:text-sm tracking-[0.2em] lg:tracking-[0.3em] text-[var(--accent)] uppercase font-bold leading-relaxed"
           >
             Creative Architect · World Builder · Brand Master
           </motion.div>
