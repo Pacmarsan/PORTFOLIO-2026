@@ -27,7 +27,7 @@ const SectionBody: React.FC<{ children: React.ReactNode; delay?: number }> = ({ 
 
 const HeroIdentity: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
-    <div className="h-full w-full flex flex-col justify-center relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto lg:overflow-visible pt-20 lg:pt-0 pb-20 lg:pb-0">
+    <div className="h-full w-full flex flex-col justify-center relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto lg:overflow-visible pt-32 lg:pt-0 pb-20 lg:pb-0">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)] rounded-full blur-[100px] opacity-10 pointer-events-none" />
 
