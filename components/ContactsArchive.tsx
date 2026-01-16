@@ -178,14 +178,14 @@ const ContactsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="h-full w-full flex flex-col relative pl-4 lg:pl-16 pr-8 lg:pr-24 overflow-y-auto custom-scrollbar pt-20 lg:pt-0 justify-center">
+    <div className="h-full w-full flex flex-col relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto custom-scrollbar pt-20 lg:pt-0 justify-center">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#ff2a6d] rounded-full blur-[150px] opacity-10 pointer-events-none" />
 
       {/* Close Button */}
       <button
         onClick={onClose}
-        className="fixed lg:absolute top-4 right-4 lg:top-0 lg:right-12 p-4 text-white/30 hover:text-[var(--accent)] transition-colors z-50 bg-[#050505]/80 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none rounded-full lg:rounded-none"
+        className="absolute top-4 right-4 lg:top-0 lg:right-12 p-4 text-white/30 hover:text-[var(--accent)] transition-colors z-50 lg:bg-transparent"
         aria-label="Close Contacts"
       >
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">

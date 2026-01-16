@@ -235,7 +235,7 @@ const App: React.FC = () => {
                 opacity: hudState.opacity, 
                 scale: hudState.scale,
               }}
-              className="fixed inset-0 pointer-events-none z-20 flex items-center justify-center lg:justify-start px-8 lg:px-24"
+              className="fixed inset-0 pointer-events-none z-20 flex items-center justify-center lg:justify-start px-6 lg:px-24"
             >
               {/* Dynamic Layout Container */}
               <div className="relative w-full max-w-[1400px] h-[600px] flex items-center">
@@ -250,13 +250,13 @@ const App: React.FC = () => {
                    }}
                    transition={{ duration: 0.5 }}
                 >
-                  <div className="hud-border bg-[#050505]/60 backdrop-blur-md p-8 lg:p-12 border-l-4 border-l-[var(--accent)] relative group overflow-hidden">
-                    <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-white/5" />
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/5" />
+                  <div className="lg:hud-border lg:bg-[#050505]/60 lg:backdrop-blur-md lg:p-12 lg:border-l-4 lg:border-l-[var(--accent)] relative group overflow-hidden">
+                    <div className="hidden lg:block absolute top-0 right-0 w-12 h-12 border-t border-r border-white/5" />
+                    <div className="hidden lg:block absolute bottom-0 left-0 w-full h-[2px] bg-white/5" />
                     
                     <div className="text-[10px] tracking-[0.3em] font-bold text-white/30 mb-8 flex items-center gap-4">
                       <span>PACMARSAN PROTOCOL // PORTFOLIO</span>
-                      <div className="flex-1 h-[1px] bg-white/5" />
+                      <div className="hidden lg:block flex-1 h-[1px] bg-white/5" />
                     </div>
 
                     <AnimatePresence mode="wait">
@@ -267,26 +267,26 @@ const App: React.FC = () => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <h2 className="text-5xl lg:text-7xl font-bold tracking-tighter mb-8 glow-text leading-tight text-[var(--accent)]">
+                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-4 lg:mb-8 glow-text leading-tight text-[var(--accent)]">
                           <TerminalText 
                             text={activePhase.name === 'hero' ? 'WHO I AM' : activePhase.name.toUpperCase()}
                           />
                         </h2>
                         
-                        <div className="space-y-4 border-t border-white/10 pt-8 mt-4">
-                          <div className="flex items-center gap-4">
-                            <span className="text-[10px] text-white/30 font-bold w-16 uppercase tracking-widest">Phase:</span>
+                        <div className="space-y-4 border-t border-white/10 pt-4 lg:pt-8 mt-4">
+                          <div className="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-4">
+                            <span className="text-[10px] text-white/30 font-bold w-16 uppercase tracking-widest hidden lg:block">Phase:</span>
                             <TerminalText 
                               text={activePhase.label} 
                               className="text-[11px] text-white font-bold tracking-[0.3em] uppercase"
                               delay={0.2}
                             />
                           </div>
-                          <div className="flex items-center gap-4">
-                            <span className="text-[10px] text-white/30 font-bold w-16 uppercase tracking-widest">Type:</span>
+                          <div className="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-4">
+                            <span className="text-[10px] text-white/30 font-bold w-16 uppercase tracking-widest hidden lg:block">Type:</span>
                             <TerminalText 
                               text={activePhase.subtext} 
-                              className="text-[11px] text-white font-bold tracking-[0.3em] uppercase"
+                              className="text-[10px] lg:text-[11px] text-white/60 lg:text-white font-bold tracking-[0.2em] lg:tracking-[0.3em] uppercase"
                               delay={0.4}
                             />
                           </div>
@@ -294,15 +294,15 @@ const App: React.FC = () => {
                       </motion.div>
                     </AnimatePresence>
 
-                    <div className="mt-12 flex items-center gap-4">
+                    <div className="mt-8 lg:mt-12 flex items-center gap-4">
                       <button
                         onClick={() => setExpandedPhase(activePhase.name)}
-                        className="px-6 py-2 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)]"
+                        className="px-6 py-3 lg:py-2 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)] w-full lg:w-auto"
                       >
                         EXPLORE {activePhase.name.toUpperCase()}
                       </button>
-                      <div className="flex-1" />
-                      <div className="flex items-center gap-1">
+                      <div className="hidden lg:block flex-1" />
+                      <div className="hidden lg:flex items-center gap-1">
                         {[...Array(4)].map((_, i) => (
                           <div key={i} className="w-1 h-3 bg-white/10" />
                         ))}
