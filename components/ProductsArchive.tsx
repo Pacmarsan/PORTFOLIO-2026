@@ -87,8 +87,8 @@ const ProductCard: React.FC<{ product: ProductData; index: number }> = ({ produc
       transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="flex-shrink-0 w-[85vw] lg:w-[60vw] h-[75vh] lg:h-[80vh] flex flex-col snap-center relative group rounded-md overflow-hidden bg-[#0a0a0a] border border-white/10"
     >
-      {/* --- LIVE PREVIEW AREA (Top 65%) --- */}
-      <div className="relative h-[65%] w-full bg-black overflow-hidden border-b border-white/10">
+      {/* --- LIVE PREVIEW AREA (Top 80%) --- */}
+      <div className="relative h-[80%] w-full bg-black overflow-hidden border-b border-white/10">
 
         {/* Live Indicator */}
         <div className="absolute top-4 right-4 z-20 flex items-center gap-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
@@ -156,8 +156,8 @@ const ProductCard: React.FC<{ product: ProductData; index: number }> = ({ produc
         </a>
       </div>
 
-      {/* --- INFO AREA (Bottom 35%) --- */}
-      <div className="flex-1 p-6 lg:p-10 relative bg-[#0a0a0a] flex flex-col justify-between">
+      {/* --- INFO AREA (Bottom 20%) --- */}
+      <div className="flex-1 p-5 lg:p-6 relative bg-[#0a0a0a] flex flex-col justify-between">
           {/* Background Gradient */}
           <div
             className="absolute bottom-0 right-0 w-64 h-64 rounded-full blur-[80px] opacity-10 pointer-events-none"
@@ -165,32 +165,32 @@ const ProductCard: React.FC<{ product: ProductData; index: number }> = ({ produc
           />
 
           <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-2">
                  <span className="px-2 py-1 bg-white/5 border border-white/10 rounded-sm text-[9px] tracking-wider text-[var(--accent)] uppercase font-bold">
                     {product.role}
                  </span>
                  <div className="h-[1px] flex-1 bg-white/10" />
               </div>
 
-              <h2 className="text-3xl lg:text-4xl font-bold text-white tracking-tighter mb-4">
+              <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tighter mb-2">
                   <TerminalText text={product.title} />
               </h2>
 
-              <p className="text-sm text-white/60 font-light leading-relaxed max-w-2xl">
+              <p className="text-xs lg:text-sm text-white/60 font-light leading-relaxed max-w-2xl line-clamp-2">
                   {product.oneLiner}
               </p>
 
               {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2 mt-6">
+              <div className="flex flex-wrap gap-2 mt-3 hidden lg:flex">
                   {product.techStack.map(tech => (
-                      <span key={tech} className="text-[10px] text-white/40 uppercase tracking-wider border border-white/10 px-2 py-1 rounded-sm">
+                      <span key={tech} className="text-[9px] text-white/40 uppercase tracking-wider border border-white/10 px-2 py-0.5 rounded-sm">
                           {tech}
                       </span>
                   ))}
               </div>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between mt-6 pt-6 border-t border-white/5">
+          <div className="relative z-10 flex items-center justify-between mt-3 pt-3 border-t border-white/5">
                <a
                  href={product.liveUrl}
                  target="_blank"
