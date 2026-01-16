@@ -307,6 +307,27 @@ const TimelineMap: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({
   );
 };
 
+const MobileTimelineList: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({ onSelect }) => {
+    return (
+        <div className="space-y-4 mb-24">
+            {TIMELINE_DATA.map((node) => (
+                <div
+                    key={node.id}
+                    onClick={() => onSelect(node)}
+                    className="p-4 border border-white/10 bg-white/5 rounded-sm hover:border-[var(--accent)] transition-colors cursor-pointer"
+                >
+                    <div className="flex justify-between items-start mb-2">
+                        <span className="text-[10px] text-[var(--accent)] font-bold tracking-widest uppercase">{node.year}</span>
+                        <span className="text-[8px] text-white/40 tracking-wider uppercase">{node.company}</span>
+                    </div>
+                    <h3 className="text-sm font-bold text-white uppercase mb-1">{node.role}</h3>
+                    <p className="text-[10px] text-white/60 line-clamp-2">{node.description}</p>
+                </div>
+            ))}
+        </div>
+    );
+};
+
 const SkillTreeIllustration: React.FC = () => {
     const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
@@ -402,6 +423,30 @@ const SkillTreeIllustration: React.FC = () => {
     )
 }
 
+const MobileSkillList: React.FC = () => {
+    const categories = ['code', 'design', 'ai', 'soft'] as const;
+
+    return (
+        <div className="space-y-8 mb-24">
+            {categories.map((cat) => (
+                <div key={cat} className="space-y-4">
+                     <h3 className="text-[10px] text-[var(--accent)] font-bold tracking-[0.2em] uppercase border-b border-white/10 pb-2">
+                         {cat === 'soft' ? 'LEADERSHIP & SOFT SKILLS' : cat + ' SKILLS'}
+                     </h3>
+                     <div className="grid grid-cols-2 gap-3">
+                         {SKILL_NODES.filter(n => n.category === cat && n.fullText).map(node => (
+                             <div key={node.id} className="p-3 bg-white/5 border border-white/10 rounded-sm">
+                                 <div className="text-[10px] font-bold text-white uppercase mb-1">{node.label}</div>
+                                 <div className="text-[9px] text-white/50">{node.fullText.split(',')[0]}</div>
+                             </div>
+                         ))}
+                     </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
 const CertificatesGrid: React.FC<{ onSelect: (cert: CertificateData) => void }> = ({ onSelect }) => {
     return (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
@@ -488,7 +533,12 @@ const ExperiencesArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         {/* Timeline */}
                         <section>
                             <SectionTitle delay={0.2}>My Experience Timeline</SectionTitle>
-                            <TimelineMap onSelect={setSelectedItem} />
+                            <div className="hidden lg:block">
+                                <TimelineMap onSelect={setSelectedItem} />
+                            </div>
+                            <div className="lg:hidden">
+                                <MobileTimelineList onSelect={setSelectedItem} />
+                            </div>
                         </section>
 
                         {/* Skills */}
@@ -497,7 +547,12 @@ const ExperiencesArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                              <div className="text-sm leading-relaxed text-white/70 font-light mb-8 max-w-xl">
                                 The visual design resembles expanding tree branches, symbolizing growth and mastery over time.
                             </div>
-                            <SkillTreeIllustration />
+                            <div className="hidden lg:block">
+                                <SkillTreeIllustration />
+                            </div>
+                            <div className="lg:hidden">
+                                <MobileSkillList />
+                            </div>
                         </section>
 
                         {/* Certificates */}

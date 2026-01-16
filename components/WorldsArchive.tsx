@@ -130,7 +130,7 @@ const BookSpine: React.FC<{ book: BookData; onClick: () => void }> = ({ book, on
     <motion.div
       onClick={onClick}
       whileHover={{ scale: 1.05, y: -5, zIndex: 10 }}
-      className="group relative h-48 w-8 lg:w-10 cursor-pointer perspective-500"
+      className="group relative h-48 w-10 lg:w-12 flex-shrink-0 cursor-pointer perspective-500"
     >
       <div
         className="absolute inset-0 rounded-sm shadow-lg transition-all duration-300"
@@ -156,10 +156,12 @@ const ShelfRow: React.FC<{ title: string; books: BookData[]; onSelectBook: (book
       <div className="text-[9px] tracking-[0.2em] font-bold text-white/30 mb-4 border-b border-white/5 pb-2 uppercase">
         {title}
       </div>
-      <div className="flex items-end gap-1 lg:gap-2 px-2 border-b-4 border-[#1a1a1a] pb-0 bg-gradient-to-b from-transparent to-white/5 pt-4">
+      <div className="flex items-end gap-1 lg:gap-2 px-2 border-b-4 border-[#1a1a1a] pb-0 bg-gradient-to-b from-transparent to-white/5 pt-4 overflow-x-auto custom-scrollbar">
         {books.map((book) => (
           <BookSpine key={book.id} book={book} onClick={() => onSelectBook(book)} />
         ))}
+        {/* Spacer */}
+        <div className="min-w-[1rem] h-1" />
       </div>
     </div>
   );
