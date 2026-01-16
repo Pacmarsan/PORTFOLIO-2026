@@ -294,12 +294,12 @@ const App: React.FC = () => {
                       </motion.div>
                     </AnimatePresence>
 
-                    <div className="mt-8 lg:mt-12 flex items-center gap-4">
+                    <div className="mt-8 lg:mt-12 flex items-center gap-4 justify-center lg:justify-start">
                       <button
                         onClick={() => setExpandedPhase(activePhase.name)}
-                        className="px-6 py-3 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)] w-full block lg:hidden"
+                        className="px-8 py-2 bg-[#00f5ff] text-black text-xs font-bold rounded-full shadow-[0_0_15px_#00f5ff] hover:scale-105 transition-all cursor-pointer w-auto block lg:hidden"
                       >
-                        EXPLORE {activePhase.name.toUpperCase()}
+                        Explore
                       </button>
                       <div className="hidden lg:block flex-1" />
                       <div className="hidden lg:flex items-center gap-1">
