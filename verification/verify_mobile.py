@@ -17,9 +17,9 @@ def verify_mobile(page):
     print("Entered Protocol. Waiting for HUD...")
     time.sleep(2) # Wait for animations
 
-    # Check for "EXPLORE HERO" button
-    # The button text is `EXPLORE {activePhase.name.toUpperCase()}`
-    explore_btn = page.get_by_role("button", name="EXPLORE HERO")
+    # Check for "Explore" button
+    # The button text is just "Explore" now
+    explore_btn = page.get_by_role("button", name="Explore")
     expect(explore_btn).to_be_visible()
 
     print("Found Explore button. Clicking...")
@@ -34,7 +34,7 @@ def verify_mobile(page):
     expect(overlay_text).to_be_visible()
 
     print("Taking screenshot of Hero Overlay...")
-    page.screenshot(path="verification/mobile_hero_v6.png")
+    page.screenshot(path="verification/mobile_hero_v7.png")
 
     # Close it
     print("Closing overlay...")
