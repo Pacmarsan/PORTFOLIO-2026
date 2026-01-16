@@ -84,7 +84,7 @@ const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative flex-shrink-0 w-[300px] lg:w-[400px] aspect-video cursor-pointer"
+      className="group relative flex-shrink-0 w-[85vw] lg:w-[400px] aspect-video cursor-pointer snap-center"
     >
       {/* Background / Image Placeholder */}
       <div className="absolute inset-0 bg-white/5 border border-white/10 group-hover:border-[var(--accent)] group-hover:bg-white/10 transition-all duration-300 overflow-hidden">
@@ -278,7 +278,7 @@ const BrandsArchive: React.FC<BrandsArchiveProps> = ({ onClose }) => {
                             </div>
 
                             {/* Horizontal Scroll Container */}
-                            <div className="w-full overflow-x-auto pb-12 custom-scrollbar flex items-center gap-6 px-1">
+                            <div className="w-full overflow-x-auto pb-12 custom-scrollbar flex items-center gap-6 px-4 lg:px-1 snap-x snap-mandatory lg:snap-none">
                                 {CARDS.map((card, index) => (
                                     <BrandCard
                                         key={card.id}

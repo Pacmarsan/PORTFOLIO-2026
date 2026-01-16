@@ -14,6 +14,24 @@ import ExperiencesArchive from './components/ExperiencesArchive';
 import ProductsArchive from './components/ProductsArchive';
 import ContactsArchive from './components/ContactsArchive';
 
+// Helper component for content switching to avoid duplication
+const PhaseContent: React.FC<{
+  phase: PhaseName | null;
+  onClose: () => void;
+  selectedBrandId: string | null;
+  setSelectedBrandId: (id: string | null) => void;
+}> = ({ phase, onClose, selectedBrandId, setSelectedBrandId }) => {
+  switch (phase) {
+    case 'hero': return <HeroIdentity onClose={onClose} />;
+    case 'worlds': return <WorldsArchive onClose={onClose} />;
+    case 'brands': return <BrandsArchive selectedBrandId={selectedBrandId} onClose={() => { onClose(); setSelectedBrandId(null); }} onSelect={(id) => setSelectedBrandId(id || null)} />;
+    case 'experiences': return <ExperiencesArchive onClose={onClose} />;
+    case 'products': return <ProductsArchive onClose={onClose} />;
+    case 'contacts': return <ContactsArchive onClose={onClose} />;
+    default: return null;
+  }
+};
+
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
   const [isReady, setIsReady] = useState(false);
@@ -277,8 +295,11 @@ const App: React.FC = () => {
                     </AnimatePresence>
 
                     <div className="mt-12 flex items-center gap-4">
-                      <button className="px-6 py-2 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer">
-                        Initiate Sequence
+                      <button
+                        onClick={() => setExpandedPhase(activePhase.name)}
+                        className="px-6 py-2 bg-[var(--accent)] text-black text-[10px] font-bold tracking-widest uppercase hover:brightness-110 transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)]"
+                      >
+                        EXPLORE {activePhase.name.toUpperCase()}
                       </button>
                       <div className="flex-1" />
                       <div className="flex items-center gap-1">
@@ -313,7 +334,7 @@ const App: React.FC = () => {
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Expanded Content Layer */}
+                {/* Desktop Expanded Content Layer */}
                 <motion.div
                   className="absolute right-0 top-0 h-full hidden lg:flex flex-col justify-center pointer-events-auto"
                   initial={{ width: '50%', opacity: 0, x: 100 }}
@@ -325,28 +346,12 @@ const App: React.FC = () => {
                   }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    {expandedPhase === 'hero' && (
-                        <HeroIdentity onClose={() => setExpandedPhase(null)} />
-                    )}
-                    {expandedPhase === 'worlds' && (
-                        <WorldsArchive onClose={() => setExpandedPhase(null)} />
-                    )}
-                    {expandedPhase === 'brands' && (
-                        <BrandsArchive
-                           selectedBrandId={selectedBrandId}
-                           onClose={() => { setExpandedPhase(null); setSelectedBrandId(null); }}
-                           onSelect={(id) => setSelectedBrandId(id || null)}
-                        />
-                    )}
-                    {expandedPhase === 'experiences' && (
-                        <ExperiencesArchive onClose={() => setExpandedPhase(null)} />
-                    )}
-                    {expandedPhase === 'products' && (
-                        <ProductsArchive onClose={() => setExpandedPhase(null)} />
-                    )}
-                    {expandedPhase === 'contacts' && (
-                        <ContactsArchive onClose={() => setExpandedPhase(null)} />
-                    )}
+                   <PhaseContent
+                      phase={expandedPhase}
+                      onClose={() => setExpandedPhase(null)}
+                      selectedBrandId={selectedBrandId}
+                      setSelectedBrandId={setSelectedBrandId}
+                   />
                 </motion.div>
 
               </div>
@@ -393,6 +398,26 @@ const App: React.FC = () => {
             >
               <div className="text-[10px] text-white/40 animate-pulse uppercase tracking-[0.2em]">Navigating Protocol...</div>
             </motion.div>
+
+            {/* Mobile Expanded Content Overlay */}
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  className="fixed inset-0 z-[100] bg-black flex flex-col pointer-events-auto lg:hidden"
+                  initial={{ opacity: 0, y: '100%' }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: '100%' }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                   <PhaseContent
+                      phase={expandedPhase}
+                      onClose={() => setExpandedPhase(null)}
+                      selectedBrandId={selectedBrandId}
+                      setSelectedBrandId={setSelectedBrandId}
+                   />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
