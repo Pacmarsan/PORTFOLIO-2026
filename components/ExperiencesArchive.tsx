@@ -265,6 +265,8 @@ const DetailView: React.FC<{ item: TimelineNodeData | CertificateData; onClose: 
 };
 
 const TimelineMap: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({ onSelect }) => {
+  const NEON_GREEN = '#39FF14';
+
   return (
     <div className="relative w-full h-[800px] mb-24">
       <svg className="w-full h-full absolute inset-0 pointer-events-none" viewBox="0 0 100 800" preserveAspectRatio="none">
@@ -272,9 +274,9 @@ const TimelineMap: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({
         <motion.path
           d={`M ${TIMELINE_DATA.map(n => `${n.x * 0.8 + 10} ${n.y * 7 + 50}`).join(' L ')}`}
           fill="none"
-          stroke="var(--accent)"
-          strokeWidth="2"
-          strokeOpacity="0.6"
+          stroke={NEON_GREEN}
+          strokeWidth="1"
+          strokeOpacity="0.8"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 2, ease: "easeInOut" }}
@@ -294,8 +296,20 @@ const TimelineMap: React.FC<{ onSelect: (item: TimelineNodeData) => void }> = ({
             }}
             onClick={() => onSelect(node)}
         >
-            <div className="relative">
-                <div className="w-4 h-4 bg-[#050505] border border-[var(--accent)] rotate-45 group-hover:bg-[var(--accent)] transition-colors duration-300" />
+            <div className="relative flex items-center justify-center">
+                {/* Pulsing Glow */}
+                <motion.div
+                    className="absolute inset-0 rounded-sm blur-[4px]"
+                    style={{ backgroundColor: NEON_GREEN }}
+                    animate={{ opacity: [0.2, 0.8, 0.2], scale: [1, 1.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+
+                <div
+                    className="relative w-4 h-4 bg-[#050505] rotate-45 transition-colors duration-300 z-10"
+                    style={{ borderColor: NEON_GREEN, borderWidth: '1px', borderStyle: 'solid' }}
+                />
+
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-32 text-center pointer-events-none">
                     <div className="text-[9px] font-bold text-[var(--accent)] tracking-widest uppercase mb-1">{node.year}</div>
                     <div className="text-[10px] text-white font-bold tracking-wider leading-tight group-hover:text-[var(--accent)] transition-colors">{node.role}</div>
