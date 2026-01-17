@@ -250,7 +250,7 @@ const App: React.FC = () => {
                    }}
                    transition={{ duration: 0.5 }}
                 >
-                  <div className="lg:hud-border lg:bg-[#050505]/60 lg:backdrop-blur-md lg:p-12 lg:border-l-4 lg:border-l-[var(--accent)] relative group overflow-hidden">
+                  <div className="lg:hud-border lg:p-12 lg:border-l-4 lg:border-l-[var(--accent)] relative group overflow-hidden">
                     <div className="hidden lg:block absolute top-0 right-0 w-12 h-12 border-t border-r border-white/5" />
                     <div className="hidden lg:block absolute bottom-0 left-0 w-full h-[2px] bg-white/5" />
                     
