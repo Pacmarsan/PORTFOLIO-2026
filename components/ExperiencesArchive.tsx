@@ -32,6 +32,7 @@ interface CertificateData {
   issuer: string;
   date: string;
   type: 'certificate' | 'award';
+  image?: string;
 }
 
 // --- Data ---
@@ -189,17 +190,10 @@ const SKILL_NODES: SkillNodeData[] = [
 ];
 
 const CERTIFICATES: CertificateData[] = [
-  { id: 'c1', title: 'React Advanced', issuer: 'Meta', date: '2024', type: 'certificate' },
-  { id: 'c2', title: 'Generative AI', issuer: 'Google', date: '2024', type: 'certificate' },
-  { id: 'c3', title: 'Hackathon Winner', issuer: 'Bolt AI', date: '2025', type: 'award' },
-  { id: 'c4', title: 'UX Design', issuer: 'Google', date: '2023', type: 'certificate' },
-  { id: 'c5', title: 'Frontend Basics', issuer: 'FreeCodeCamp', date: '2022', type: 'certificate' },
-  // Row 2
-  { id: 'c6', title: 'Manga Award', issuer: 'Limitless', date: '2023', type: 'award' },
-  { id: 'c7', title: 'Leadership', issuer: 'LinkedIn', date: '2024', type: 'certificate' },
-  { id: 'c8', title: 'Prompt Eng.', issuer: 'OpenAI', date: '2024', type: 'certificate' },
-  { id: 'c9', title: 'Web Animation', issuer: 'Awwwards', date: '2025', type: 'certificate' },
-  { id: 'c10', title: 'Full Stack', issuer: 'Udemy', date: '2023', type: 'certificate' },
+  { id: 'c1', title: 'Manga of the Month', issuer: 'Limitless', date: 'November 2024', type: 'award' },
+  { id: 'c2', title: 'Effective Leadership', issuer: 'HP', date: '8/28/2025', type: 'certificate', image: '/assets/certificates/hp-effective-leadership.jpg' },
+  { id: 'c3', title: 'Business Communications', issuer: 'HP', date: '8/28/2025', type: 'certificate', image: '/assets/certificates/hp-business-communications.png' },
+  { id: 'c4', title: 'AI Starter Kit', issuer: 'ALX', date: '15th April 2025', type: 'certificate', image: '/assets/certificates/alx-ai-starter-kit.png' },
 ];
 
 // --- Sub-Components ---
@@ -218,37 +212,50 @@ const SectionTitle: React.FC<{ children: React.ReactNode; delay?: number }> = ({
 
 const DetailView: React.FC<{ item: TimelineNodeData | CertificateData; onClose: () => void }> = ({ item, onClose }) => {
   const isTimeline = 'role' in item;
+  const cert = !isTimeline ? (item as CertificateData) : null;
 
   return (
-    <div className="h-full w-full flex flex-col justify-center relative p-8">
-       <button
-        onClick={onClose}
-        className="absolute top-0 right-0 p-4 text-white/30 hover:text-[var(--accent)] transition-colors"
-      >
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+    <div className="h-full w-full relative p-8 overflow-y-auto custom-scrollbar">
+       <div className="sticky top-0 w-full flex justify-end z-30 pointer-events-none">
+           <button
+            onClick={onClose}
+            className="pointer-events-auto p-4 text-white/30 hover:text-[var(--accent)] transition-colors bg-black/20 backdrop-blur-sm rounded-full"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-2xl"
+        className="max-w-2xl w-full mx-auto"
       >
         <div className="text-[10px] tracking-[0.3em] font-bold text-[var(--accent)] uppercase mb-4">
-            {isTimeline ? (item as TimelineNodeData).year : (item as CertificateData).date}
+            {isTimeline ? (item as TimelineNodeData).year : cert?.date}
         </div>
 
         <h2 className="text-3xl lg:text-5xl font-bold tracking-tighter text-white mb-2">
-            <TerminalText text={isTimeline ? (item as TimelineNodeData).role : (item as CertificateData).title} />
+            <TerminalText text={isTimeline ? (item as TimelineNodeData).role : cert!.title} />
         </h2>
 
         <div className="text-sm tracking-[0.2em] text-white/40 uppercase mb-8">
-            {isTimeline ? (item as TimelineNodeData).company : (item as CertificateData).issuer}
+            {isTimeline ? (item as TimelineNodeData).company : cert?.issuer}
         </div>
 
         <div className="h-[1px] w-full bg-white/10 mb-8" />
+
+        {cert?.image && (
+            <div className="mb-8 rounded-sm overflow-hidden border border-white/10 relative bg-black/50">
+                <img
+                    src={cert.image}
+                    alt={cert.title}
+                    className="w-full h-auto object-cover"
+                />
+            </div>
+        )}
 
         <div className="text-sm leading-relaxed text-white/70 font-light space-y-4">
              {isTimeline ? (
@@ -471,19 +478,32 @@ const CertificatesGrid: React.FC<{ onSelect: (cert: CertificateData) => void }> 
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 + (i * 0.1) }}
                     onClick={() => onSelect(cert)}
-                    className="aspect-square border border-white/10 hover:border-[var(--accent)] bg-white/5 hover:bg-[var(--accent)]/10 transition-all cursor-pointer p-4 flex flex-col justify-between group"
+                    className="aspect-square border border-white/10 hover:border-[var(--accent)] bg-white/5 hover:bg-[var(--accent)]/10 transition-all cursor-pointer relative overflow-hidden group"
                 >
-                    <div className="flex justify-between items-start">
-                        <div className="w-2 h-2 bg-white/20 group-hover:bg-[var(--accent)]" />
-                        <div className="text-[8px] tracking-widest text-white/30 uppercase">{cert.date}</div>
-                    </div>
+                    {cert.image && (
+                         <>
+                            <img
+                                src={cert.image}
+                                alt={cert.title}
+                                className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+                        </>
+                    )}
 
-                    <div className="space-y-2">
-                        <div className="text-[8px] tracking-[0.2em] text-[var(--accent)] uppercase">{cert.type}</div>
-                        <div className="text-[10px] font-bold leading-tight uppercase group-hover:text-white transition-colors">{cert.title}</div>
-                    </div>
+                    <div className="absolute inset-0 p-4 flex flex-col justify-between z-10">
+                         <div className="flex justify-between items-start">
+                            <div className="w-2 h-2 bg-white/20 group-hover:bg-[var(--accent)]" />
+                            <div className="text-[8px] tracking-widest text-white/30 uppercase group-hover:text-white/70 transition-colors">{cert.date}</div>
+                        </div>
 
-                    <div className="text-[8px] tracking-widest text-white/30 uppercase text-right group-hover:text-white/50">{cert.issuer}</div>
+                        <div className="space-y-2">
+                            <div className="text-[8px] tracking-[0.2em] text-[var(--accent)] uppercase">{cert.type}</div>
+                            <div className="text-[10px] font-bold leading-tight uppercase text-white/80 group-hover:text-white transition-colors">{cert.title}</div>
+                        </div>
+
+                        <div className="text-[8px] tracking-widest text-white/30 uppercase text-right group-hover:text-white/50">{cert.issuer}</div>
+                    </div>
                 </motion.div>
             ))}
         </div>
