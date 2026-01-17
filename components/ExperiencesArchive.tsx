@@ -191,8 +191,8 @@ const SKILL_NODES: SkillNodeData[] = [
 
 const CERTIFICATES: CertificateData[] = [
   { id: 'c1', title: 'Manga of the Month', issuer: 'Limitless', date: 'November 2024', type: 'award' },
-  { id: 'c2', title: 'Effective Leadership', issuer: 'HP', date: '8/28/2025', type: 'certificate', image: '/assets/certificates/hp-effective-leadership.jpg' },
-  { id: 'c3', title: 'Business Communications', issuer: 'HP', date: '8/28/2025', type: 'certificate', image: '/assets/certificates/hp-business-communications.png' },
+  { id: 'c2', title: 'HP AI for beginners', issuer: 'HP', date: '4/29/2025', type: 'certificate', image: '/assets/certificates/hp-effective-leadership.jpg' },
+  { id: 'c3', title: 'Effective Leadership', issuer: 'HP', date: '8/28/2025', type: 'certificate', image: '/assets/certificates/hp-business-communications.png' },
   { id: 'c4', title: 'AI Starter Kit', issuer: 'ALX', date: '15th April 2025', type: 'certificate', image: '/assets/certificates/alx-ai-starter-kit.png' },
 ];
 
