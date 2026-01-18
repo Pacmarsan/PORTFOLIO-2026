@@ -87,6 +87,18 @@ const App: React.FC = () => {
     }
   }, [activePhase.name, expandedPhase]);
 
+  // Lock scroll when expanded
+  useEffect(() => {
+    if (expandedPhase) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [expandedPhase]);
+
   // Dynamic HUD state based on phase proximity
   const hudState = useMemo(() => {
     const inPhase = PHASES.some(p => scrollProgress >= p.start && scrollProgress <= p.end);
@@ -130,6 +142,18 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-[600vh] selection:bg-[var(--accent)] selection:text-black font-mono">
+      {/* Mobile Scroll Snap Config & Anchors */}
+      <style>{`
+        @media (max-width: 1024px) {
+          html { scroll-snap-type: y mandatory; }
+        }
+      `}</style>
+      <div className="absolute inset-0 flex flex-col pointer-events-none lg:hidden">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="h-[100vh] w-full snap-start" />
+        ))}
+      </div>
+
       <AnimatePresence>
         {isInitializing ? (
           <motion.div
