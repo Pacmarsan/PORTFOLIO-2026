@@ -142,16 +142,28 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-[600vh] selection:bg-[var(--accent)] selection:text-black font-mono">
-      {/* Mobile Scroll Snap Config & Anchors */}
+      {/* Global Scroll Snap Config & Anchors */}
       <style>{`
-        @media (max-width: 1024px) {
-          html { scroll-snap-type: y mandatory; }
-        }
+        html { scroll-snap-type: y mandatory; }
       `}</style>
-      <div className="absolute inset-0 flex flex-col pointer-events-none lg:hidden">
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-[100vh] w-full snap-start" />
-        ))}
+      <div className="absolute inset-0 pointer-events-none">
+        {PHASES.map((p, i) => {
+           // Calculate snap target based on phase definitions
+           // First phase: Top (0)
+           // Last phase: Bottom (1.0)
+           // Others: Center of phase
+           const isFirst = i === 0;
+           const isLast = i === PHASES.length - 1;
+           const ratio = isFirst ? 0 : isLast ? 1 : (p.start + p.end) / 2;
+
+           return (
+             <div
+               key={p.name}
+               className="absolute w-full h-[1px] snap-start"
+               style={{ top: `calc(${ratio} * (100% - 100vh))` }}
+             />
+           );
+        })}
       </div>
 
       <AnimatePresence>
