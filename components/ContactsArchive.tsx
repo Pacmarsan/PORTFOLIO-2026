@@ -178,7 +178,7 @@ const ContactsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="h-full w-full flex flex-col relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto custom-scrollbar pt-20 lg:pt-0 justify-center">
+    <div className="h-full w-full flex flex-col relative px-6 lg:pl-16 lg:pr-24 overflow-y-auto custom-scrollbar pt-20 lg:pt-24">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#ff2a6d] rounded-full blur-[150px] opacity-10 pointer-events-none" />
 
@@ -194,7 +194,7 @@ const ContactsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </svg>
       </button>
 
-      <div className="max-w-4xl w-full mx-auto relative z-10 pb-12">
+      <div className="max-w-4xl w-full mx-auto relative z-10 pb-12 my-auto">
         <SectionHeader />
 
         {/* Primary Panel */}
