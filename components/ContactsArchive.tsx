@@ -71,7 +71,7 @@ const SectionHeader: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="mb-8 lg:mb-12">
+    <div className="mb-6 lg:mb-12">
       <motion.div
         initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -86,7 +86,7 @@ const SectionHeader: React.FC = () => {
         initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-4xl lg:text-5xl font-bold tracking-tighter text-white mb-2"
+        className="text-3xl lg:text-5xl font-bold tracking-tighter text-white mb-2"
       >
         <TerminalText text="CONTACT" delay={0.2} />
       </motion.h1>
@@ -95,7 +95,7 @@ const SectionHeader: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
-        className="text-sm lg:text-base text-white/60 font-light"
+        className="text-xs lg:text-base text-white/60 font-light"
       >
         Let’s build something real.
       </motion.p>
@@ -120,16 +120,16 @@ const PrimaryCard: React.FC<{ item: typeof CONTACTS.primary[0]; index: number }>
       }}
       whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -2 }}
       whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-      className={`relative group flex flex-col p-6 lg:p-8 rounded-sm bg-white/5 border border-white/10 transition-colors duration-300 ${item.bg} ${item.border}`}
+      className={`relative group flex flex-col p-4 lg:p-8 rounded-sm bg-white/5 border border-white/10 transition-colors duration-300 ${item.bg} ${item.border}`}
     >
-      <div className="flex items-start justify-between mb-4">
-        <item.icon className={`w-8 h-8 lg:w-10 lg:h-10 transition-transform duration-300 ${!shouldReduceMotion && 'group-hover:rotate-6'}`} style={{ color: item.color }} />
+      <div className="flex items-start justify-between mb-3">
+        <item.icon className={`w-6 h-6 lg:w-10 lg:h-10 transition-transform duration-300 ${!shouldReduceMotion && 'group-hover:rotate-6'}`} style={{ color: item.color }} />
         <FiArrowUpRight className="w-5 h-5 text-white/20 group-hover:text-white/60 transition-colors" />
       </div>
 
       <div>
-        <div className="text-xs font-bold tracking-widest text-white/40 uppercase mb-1">{item.label}</div>
-        <div className="text-sm lg:text-lg font-bold text-white tracking-tight">{item.value}</div>
+        <div className="text-[10px] lg:text-xs font-bold tracking-widest text-white/40 uppercase mb-1">{item.label}</div>
+        <div className="text-xs lg:text-lg font-bold text-white tracking-tight">{item.value}</div>
       </div>
 
       {/* Glow Effect */}
@@ -153,12 +153,12 @@ const SocialCard: React.FC<{ item: typeof CONTACTS.social[0]; index: number }> =
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
       whileHover={shouldReduceMotion ? {} : { y: -4 }}
-      className="group flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 hover:border-white/30 rounded-sm transition-all relative overflow-hidden"
+      className="group flex flex-col items-center justify-center p-4 lg:p-6 bg-white/5 border border-white/10 hover:border-white/30 rounded-sm transition-all relative overflow-hidden"
     >
       <item.icon
-        className={`w-6 h-6 mb-3 text-white/60 group-hover:text-white transition-all duration-300 ${!shouldReduceMotion && 'group-hover:scale-110 group-hover:rotate-3'}`}
+        className={`w-5 h-5 lg:w-6 lg:h-6 mb-2 lg:mb-3 text-white/60 group-hover:text-white transition-all duration-300 ${!shouldReduceMotion && 'group-hover:scale-110 group-hover:rotate-3'}`}
       />
-      <div className="text-xs font-bold tracking-widest text-white uppercase mb-1 flex items-center gap-1">
+      <div className="text-[10px] lg:text-xs font-bold tracking-widest text-white uppercase mb-1 flex items-center gap-1">
         {item.label}
       </div>
       {item.handle && (
@@ -198,14 +198,14 @@ const ContactsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <SectionHeader />
 
         {/* Primary Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 mb-8">
           {CONTACTS.primary.map((item, index) => (
             <PrimaryCard key={item.id} item={item} index={index} />
           ))}
         </div>
 
         {/* Social Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
           {CONTACTS.social.map((item, index) => (
             <SocialCard key={item.id} item={item} index={index} />
           ))}
@@ -216,7 +216,7 @@ const ContactsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
            initial={{ opacity: 0 }}
            animate={{ opacity: 1 }}
            transition={{ delay: 1.5, duration: 1 }}
-           className="text-center border-t border-white/5 pt-8"
+           className="text-center border-t border-white/5 pt-4 lg:pt-8"
         >
           <p className="text-[10px] lg:text-xs text-white/30 tracking-wider font-light uppercase">
             Prefer email for serious work. WhatsApp for quick questions.
