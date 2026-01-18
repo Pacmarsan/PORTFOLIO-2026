@@ -32,6 +32,16 @@ const PhaseContent: React.FC<{
   }
 };
 
+const CautionSignal: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <motion.div
+    animate={{ opacity: [1, 0.5, 1] }}
+    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+    className={`border border-red-500 text-red-500 px-4 py-2 font-bold tracking-widest text-[10px] uppercase shadow-[0_0_10px_rgba(239,68,68,0.3)] ${className}`}
+  >
+    CAUTION!!! SCROLL DOWN TO VIEW OTHER SECTIONS..
+  </motion.div>
+);
+
 const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
   const [isReady, setIsReady] = useState(false);
@@ -263,7 +273,24 @@ const App: React.FC = () => {
                   <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full dot-blink shadow-[0_0_5px_#34d399]" />
                 </div>
               </div>
+
+              {/* Desktop Caution Signal */}
+              {activePhase.name === 'hero' && (
+                <div className="hidden lg:block pointer-events-auto">
+                   <CautionSignal />
+                </div>
+              )}
             </motion.div>
+
+            {/* Mobile Caution Signal */}
+            {activePhase.name === 'hero' && (
+              <motion.div
+                 style={{ opacity: hudState.opacity, y: -hudState.y }}
+                 className="fixed top-24 left-0 w-full z-40 flex justify-center pointer-events-none lg:hidden px-6"
+              >
+                 <CautionSignal className="bg-black/80 backdrop-blur-sm" />
+              </motion.div>
+            )}
 
             {/* Main HUD Interface - High Dynamic Response */}
             <motion.div 
