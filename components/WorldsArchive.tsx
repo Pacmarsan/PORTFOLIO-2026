@@ -130,7 +130,7 @@ const BookSpine: React.FC<{ book: BookData; onClick: () => void }> = ({ book, on
     <motion.div
       onClick={onClick}
       whileHover={{ scale: 1.05, y: -5, zIndex: 10 }}
-      className="group relative h-48 w-10 lg:w-12 flex-shrink-0 cursor-pointer perspective-500"
+      className="group relative h-32 lg:h-48 flex-1 lg:flex-none lg:w-12 cursor-pointer perspective-500"
     >
       <div
         className="absolute inset-0 rounded-sm shadow-lg transition-all duration-300"
@@ -141,7 +141,7 @@ const BookSpine: React.FC<{ book: BookData; onClick: () => void }> = ({ book, on
 
         {/* Spine Text */}
         <div className="h-full w-full flex items-center justify-center writing-vertical-rl rotate-180 p-2">
-           <span className="text-[10px] font-bold tracking-widest text-white/90 truncate uppercase mix-blend-overlay">
+           <span className="text-[8px] lg:text-[10px] font-bold tracking-widest text-white/90 truncate uppercase mix-blend-overlay">
              {book.title}
            </span>
         </div>
@@ -152,16 +152,16 @@ const BookSpine: React.FC<{ book: BookData; onClick: () => void }> = ({ book, on
 
 const ShelfRow: React.FC<{ title: string; books: BookData[]; onSelectBook: (book: BookData) => void }> = ({ title, books, onSelectBook }) => {
   return (
-    <div className="w-full mb-8">
-      <div className="text-[9px] tracking-[0.2em] font-bold text-white/30 mb-4 border-b border-white/5 pb-2 uppercase">
+    <div className="w-full mb-2 lg:mb-8">
+      <div className="text-[9px] tracking-[0.2em] font-bold text-white/30 mb-2 lg:mb-4 border-b border-white/5 pb-2 uppercase">
         {title}
       </div>
-      <div className="flex items-end gap-1 lg:gap-2 px-2 border-b-4 border-[#1a1a1a] pb-0 bg-gradient-to-b from-transparent to-white/5 pt-4 overflow-x-auto custom-scrollbar">
+      <div className="flex items-end gap-1 lg:gap-2 px-2 border-b-4 border-[#1a1a1a] pb-0 bg-gradient-to-b from-transparent to-white/5 pt-4 overflow-visible lg:overflow-x-auto custom-scrollbar">
         {books.map((book) => (
           <BookSpine key={book.id} book={book} onClick={() => onSelectBook(book)} />
         ))}
         {/* Spacer */}
-        <div className="min-w-[1rem] h-1" />
+        <div className="hidden lg:block min-w-[1rem] h-1" />
       </div>
     </div>
   );
@@ -380,10 +380,10 @@ const WorldsArchive: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.5 }}
-                    className="w-full space-y-2 lg:space-y-4 max-h-full overflow-y-auto pr-4 custom-scrollbar"
+                    className="w-full space-y-1 lg:space-y-4 max-h-full overflow-visible lg:overflow-y-auto pr-0 lg:pr-4 custom-scrollbar"
                 >
-                    <div className="mb-6">
-                        <h1 className="text-3xl font-bold tracking-tighter text-white mb-1">ARCHIVE</h1>
+                    <div className="mb-2 lg:mb-6">
+                        <h1 className="text-xl lg:text-3xl font-bold tracking-tighter text-white mb-1">ARCHIVE</h1>
                         <div className="text-[10px] tracking-[0.3em] text-[var(--accent)] uppercase font-bold">
                             Authorized Worlds & Narratives
                         </div>
