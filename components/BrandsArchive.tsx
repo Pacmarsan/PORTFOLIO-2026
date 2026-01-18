@@ -14,62 +14,62 @@ export interface CardData {
 export const CARDS: CardData[] = [
   {
     id: 'card-1',
-    title: 'Card 1',
-    subtext: 'System Entity 1 // Description Placeholder',
+    title: 'ZIRO',
+    subtext: 'A brand advertisement centered on identifying security breaches and closing system loopholes. The piece creatively demonstrates how Ziro addresses these challenges and reinforces its commitment to trust, protection, and reliability.',
     image: '/assets/brands/brand-card-01.png'
   },
   {
     id: 'card-2',
-    title: 'Card 2',
-    subtext: 'System Entity 2 // Description Placeholder',
+    title: 'PLAYSTATION',
+    subtext: 'A brand ad focused on connection and shared memories, highlighting how PlayStation brings friends and families together through play.',
     image: '/assets/brands/brand-card-02.png'
   },
   {
     id: 'card-3',
-    title: 'Card 3',
-    subtext: 'System Entity 3 // Description Placeholder',
+    title: 'OMINOUS HALLOWEEN',
+    subtext: 'A themed Halloween animation designed to build anticipation and promote the upcoming Ominous manga release.',
     image: '/assets/brands/brand-card-03.jpg'
   },
   {
     id: 'card-4',
-    title: 'Card 4',
-    subtext: 'System Entity 4 // Description Placeholder',
+    title: 'OMINOUS CHRISTMAS',
+    subtext: 'A short festive animation celebrating Christmas with the Limitless family, while announcing the manga’s Christmas release.',
     image: '/assets/brands/brand-card-04.png'
   },
   {
     id: 'card-5',
-    title: 'Card 5',
-    subtext: 'System Entity 5 // Description Placeholder',
+    title: 'THE LIMITLESS MOMENT',
+    subtext: 'A podcast intro animation created for official announcements, updates, and key communications from Limitless Studio.',
     image: '/assets/brands/brand-card-05.png'
   },
   {
     id: 'card-6',
-    title: 'Card 6',
-    subtext: 'System Entity 6 // Description Placeholder',
+    title: 'TATAKAE LODGE',
+    subtext: 'A character showcase animation developed to introduce and promote the Tatakae Lodge game project.',
     image: '/assets/brands/brand-card-06.png'
   },
   {
     id: 'card-7',
-    title: 'Card 7',
-    subtext: 'System Entity 7 // Description Placeholder',
+    title: 'NKZ GOLD',
+    subtext: 'A professional body spray advertisement focused on product introduction and brand positioning, executed in a classic, traditional advertising style.',
     image: '/assets/brands/brand-card-07.png'
   },
   {
     id: 'card-8',
-    title: 'Card 8',
-    subtext: 'System Entity 8 // Description Placeholder',
+    title: 'OMINOUS ANIME OPENING',
+    subtext: 'An anime-style opening sequence that further promotes the Ominous manga and offers a preview of what a full anime adaptation could look like.',
     image: '/assets/brands/brand-card-08.jpg'
   },
   {
     id: 'card-9',
-    title: 'Card 9',
-    subtext: 'System Entity 9 // Description Placeholder',
+    title: 'ZEEFAS',
+    subtext: 'A professional online marketplace advertisement emphasizing the strength of its escrow system in protecting both buyers and sellers.',
     image: '/assets/brands/brand-card-09.png'
   },
   {
     id: 'card-10',
-    title: 'Card 10',
-    subtext: 'System Entity 10 // Description Placeholder',
+    title: 'MCDONALD’S',
+    subtext: 'An Ominous-themed promotional animation centered on the richness and indulgent appeal of McDonald’s offerings.',
     image: '/assets/brands/brand-card-10.png'
   }
 ];
@@ -123,7 +123,7 @@ const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }
         <h3 className="text-xl font-bold tracking-tighter text-white uppercase group-hover:translate-x-2 transition-transform duration-300">
           {card.title}
         </h3>
-        <p className="text-[10px] text-white/60 tracking-wider uppercase mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <p className="text-[10px] text-white/60 tracking-wider uppercase mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 line-clamp-3">
             {card.subtext}
         </p>
       </div>
@@ -198,8 +198,6 @@ const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, 
                     className="text-sm leading-relaxed text-white/70 font-light"
                 >
                     {card.subtext}
-                    <br /><br />
-                    ADDITIONAL DATA: This sector currently holds placeholder information. In a full deployment, this area would contain brand philosophy, visual guidelines, or architectural specifications.
                 </motion.p>
              </div>
 
