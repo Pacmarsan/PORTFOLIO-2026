@@ -9,6 +9,7 @@ export interface CardData {
   title: string;
   subtext: string;
   image?: string;
+  link?: string;
 }
 
 export const CARDS: CardData[] = [
@@ -22,55 +23,64 @@ export const CARDS: CardData[] = [
     id: 'card-2',
     title: 'PLAYSTATION',
     subtext: 'A brand ad focused on connection and shared memories, highlighting how PlayStation brings friends and families together through play.',
-    image: '/assets/brands/brand-card-02.png'
+    image: '/assets/brands/brand-card-02.png',
+    link: 'https://drive.google.com/file/d/16RubFHF8flxaEKb_wPCeHn6bxMO70_u7/view?usp=sharing'
   },
   {
     id: 'card-3',
     title: 'OMINOUS HALLOWEEN',
     subtext: 'A themed Halloween animation designed to build anticipation and promote the upcoming Ominous manga release.',
-    image: '/assets/brands/brand-card-03.jpg'
+    image: '/assets/brands/brand-card-03.jpg',
+    link: 'https://drive.google.com/file/d/1ObS3kQMtgB0fiqh9fFJ-8TITPaLl7diB/view?usp=drive_link'
   },
   {
     id: 'card-4',
     title: 'OMINOUS CHRISTMAS',
     subtext: 'A short festive animation celebrating Christmas with the Limitless family, while announcing the manga’s Christmas release.',
-    image: '/assets/brands/brand-card-04.png'
+    image: '/assets/brands/brand-card-04.png',
+    link: 'https://drive.google.com/file/d/16Wak7Avme_A1UJVPBNidhhovVV1yfwcr/view?usp=drive_link'
   },
   {
     id: 'card-5',
     title: 'THE LIMITLESS MOMENT',
     subtext: 'A podcast intro animation created for official announcements, updates, and key communications from Limitless Studio.',
-    image: '/assets/brands/brand-card-05.png'
+    image: '/assets/brands/brand-card-05.png',
+    link: 'https://drive.google.com/file/d/1e9T3AwQvkREn4uDy_AdlJum8_BoBqWjU/view?usp=drive_link'
   },
   {
     id: 'card-6',
     title: 'TATAKAE LODGE',
     subtext: 'A character showcase animation developed to introduce and promote the Tatakae Lodge game project.',
-    image: '/assets/brands/brand-card-06.png'
+    image: '/assets/brands/brand-card-06.png',
+    link: 'https://drive.google.com/file/d/1ohGGDKoVGWFC5jZSPsCgIVGjLt4IhWUA/view?usp=drive_link'
   },
   {
     id: 'card-7',
     title: 'NKZ GOLD',
     subtext: 'A professional body spray advertisement focused on product introduction and brand positioning, executed in a classic, traditional advertising style.',
-    image: '/assets/brands/brand-card-07.png'
+    image: '/assets/brands/brand-card-07.png',
+    link: 'https://drive.google.com/file/d/1kjre5kciKW0sYxwfjv3e3EYrg_a_aI_7/view?usp=drive_link'
   },
   {
     id: 'card-8',
     title: 'OMINOUS ANIME OPENING',
     subtext: 'An anime-style opening sequence that further promotes the Ominous manga and offers a preview of what a full anime adaptation could look like.',
-    image: '/assets/brands/brand-card-08.jpg'
+    image: '/assets/brands/brand-card-08.jpg',
+    link: 'https://drive.google.com/file/d/1crdvQ1CvlxNUteHVVOmFXcN-g9ZEvBg-/view?usp=drive_link'
   },
   {
     id: 'card-9',
     title: 'ZEEFAS',
     subtext: 'A professional online marketplace advertisement emphasizing the strength of its escrow system in protecting both buyers and sellers.',
-    image: '/assets/brands/brand-card-09.png'
+    image: '/assets/brands/brand-card-09.png',
+    link: 'https://drive.google.com/file/d/1npwXL5vV_Sn_xHX5pMj_2XAO7y3PQvHA/view?usp=drive_link'
   },
   {
     id: 'card-10',
     title: 'MCDONALD’S',
     subtext: 'An Ominous-themed promotional animation centered on the richness and indulgent appeal of McDonald’s offerings.',
-    image: '/assets/brands/brand-card-10.png'
+    image: '/assets/brands/brand-card-10.png',
+    link: 'https://drive.google.com/file/d/1gvb9Q-p4jP49wJhC-iLDYkIWyyPZqvbr/view?usp=drive_link'
   }
 ];
 
@@ -200,6 +210,24 @@ const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, 
                     {card.subtext}
                 </motion.p>
              </div>
+
+             {/* External Link Button */}
+             {card.link && (
+                 <motion.a
+                    href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55 }}
+                    className="inline-flex items-center gap-2 px-6 py-3 mt-6 border border-[var(--accent)] text-[var(--accent)] text-xs tracking-widest uppercase hover:bg-[var(--accent)] hover:text-black transition-all duration-300"
+                 >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    WATCH AD
+                 </motion.a>
+             )}
 
              <motion.button
                 initial={{ opacity: 0 }}
