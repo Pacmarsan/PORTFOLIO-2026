@@ -140,7 +140,7 @@ const BookSpine: React.FC<{ book: BookData; onClick: () => void }> = ({ book, on
         <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
 
         {/* Spine Text */}
-        <div className="h-full w-full flex items-center justify-center writing-vertical-rl rotate-180 p-2">
+        <div className="h-full w-full flex items-center justify-center writing-vertical-rl p-2">
            <span className="text-[8px] lg:text-[10px] font-bold tracking-widest text-white/90 truncate uppercase mix-blend-overlay">
              {book.title}
            </span>
