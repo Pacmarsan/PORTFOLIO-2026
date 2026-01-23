@@ -89,7 +89,6 @@ export const CARDS: CardData[] = [
 const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }> = ({ card, onClick, index }) => {
   return (
     <motion.div
-      layoutId={`card-container-${card.id}`}
       onClick={onClick}
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
@@ -146,7 +145,9 @@ const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, 
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 h-full items-center lg:items-start p-4 lg:p-0 w-full">
         {/* Left: Image Area (Large) */}
         <motion.div
-            layoutId={`card-container-${card.id}`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
             className="w-full lg:w-1/2 aspect-video bg-white/5 border border-white/10 relative overflow-hidden"
         >
              {card.image ? (
