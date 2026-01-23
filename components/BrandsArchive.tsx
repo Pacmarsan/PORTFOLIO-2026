@@ -125,7 +125,7 @@ const BrandCard: React.FC<{ card: CardData; onClick: () => void; index: number }
       </div>
 
       {/* Content Overlay */}
-      <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+      <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
         <div className="text-[10px] tracking-[0.2em] font-bold text-[var(--accent)] uppercase mb-2 flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-[var(--accent)]" />
             <span>ID: {card.id.split('-')[1].padStart(2, '0')}</span>
@@ -175,70 +175,52 @@ const BrandDetail: React.FC<{ card: CardData; onClose: () => void }> = ({ card, 
         {/* Right: Metadata */}
         <div className="flex-1 space-y-8 mt-4 lg:mt-0">
              <div>
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
+                <div
                     className="text-[10px] tracking-[0.2em] font-bold text-[var(--accent)] uppercase mb-2 flex items-center gap-2"
                 >
                     <div className="w-2 h-2 border border-[var(--accent)]" />
                     SYSTEM ID: {card.id.toUpperCase()}
-                </motion.div>
+                </div>
 
-                <motion.h2
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
+                <h2
                     className="text-4xl lg:text-5xl font-bold tracking-tighter text-white mb-4"
                 >
-                    <TerminalText text={card.title} />
-                </motion.h2>
+                    {card.title}
+                </h2>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
+                <div
                     className="h-[1px] w-full bg-white/10 my-6"
                 />
 
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
+                <p
                     className="text-sm leading-relaxed text-white/70 font-light"
                 >
                     {card.subtext}
-                </motion.p>
+                </p>
              </div>
 
              {/* External Link Button */}
              {card.link && (
-                 <motion.a
+                 <a
                     href={card.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.55 }}
                     className="inline-flex items-center gap-2 px-6 py-3 mt-6 border border-[var(--accent)] text-[var(--accent)] text-xs tracking-widest uppercase hover:bg-[var(--accent)] hover:text-black transition-all duration-300"
                  >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                     WATCH AD
-                 </motion.a>
+                 </a>
              )}
 
-             <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
+             <button
                 onClick={onClose}
                 className="text-[10px] tracking-widest uppercase text-[var(--accent)] hover:text-white transition-colors flex items-center gap-2 group w-fit mt-8"
              >
                  <span>← Return to Grid</span>
                  <div className="h-[1px] w-8 bg-[var(--accent)] group-hover:w-12 transition-all" />
-             </motion.button>
+             </button>
         </div>
     </div>
   );
