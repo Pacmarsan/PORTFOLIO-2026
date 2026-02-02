@@ -17,6 +17,16 @@ export interface ProductData {
 
 const PRODUCTS: ProductData[] = [
   {
+    id: 'kinetic-footwear',
+    title: 'KINETIC FOOTWEAR',
+    role: '3D Web Engineer',
+    oneLiner: 'An immersive 3D product showcase for sneaker store company.',
+    techStack: ['React 19', 'Three.js (R3F)', 'Tailwind', 'Framer Motion'],
+    liveUrl: 'https://kinectic-footwear.vercel.app/',
+    highlights: ['Real-time 3D', 'Custom Shaders'],
+    fallbackColor: '#2C097F'
+  },
+  {
     id: 'stash-it',
     title: 'STASH IT',
     role: 'Full Stack + AI',
