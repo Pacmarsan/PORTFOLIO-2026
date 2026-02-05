@@ -46,32 +46,13 @@ const PRODUCTS: ProductData[] = [
     fallbackColor: '#f59e0b'
   },
   {
-    id: 'sticker-me',
-    title: 'STICKER ME',
-    role: 'AI Product Engineer',
-    oneLiner: 'AI-powered sticker creation tool that converts uploaded photos into cartoon-style stickers.',
-    techStack: ['AI Transformation', 'Image Processing', 'React'],
-    liveUrl: 'https://sticker-me.vercel.app/',
-    highlights: ['Upload to Sticker', 'Freemium Model'],
-    fallbackColor: '#ec4899'
-  },
-  {
-    id: 'globalizer',
-    title: 'GLOBALIZER',
-    role: 'Frontend Engineer',
-    oneLiner: 'A live web platform experience built as a modern frontend system with production-style UI.',
-    techStack: ['Modern UI', 'Real-time Nav', 'Production Ready'],
-    liveUrl: 'https://globalizer-main.vercel.app/',
-    fallbackColor: '#10b981'
-  },
-  {
-    id: 'eagleseye',
-    title: 'EAGLESEYE',
-    role: 'UI/UX Engineer',
-    oneLiner: 'A finance-forward brand experience with multi-currency context and a premium intro sequence.',
-    techStack: ['FinTech UI', 'Advanced Motion', 'Data Viz'],
-    liveUrl: 'https://eagleseye.vercel.app/',
-    fallbackColor: '#6366f1'
+    id: 'arcel',
+    title: 'ARCEL',
+    role: 'Web Developer',
+    oneLiner: 'A Luxurious Fashion Design Clothing Brand',
+    techStack: ['React'],
+    liveUrl: 'https://arcel.vercel.app/',
+    fallbackColor: '#D4AF37'
   }
 ];
 
