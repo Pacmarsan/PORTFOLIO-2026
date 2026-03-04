@@ -27,16 +27,6 @@ const PRODUCTS: ProductData[] = [
     fallbackColor: '#2C097F'
   },
   {
-    id: 'stash-it',
-    title: 'STASH IT',
-    role: 'Full Stack + AI',
-    oneLiner: 'AI-powered platform for saving and organizing short-form content so you never lose the good stuff.',
-    techStack: ['Next.js', 'AI Integration', 'Supabase', 'Tailwind'],
-    liveUrl: 'https://stash1t.vercel.app/',
-    highlights: ['Save links & Organize', 'AI Insights', 'Activity Feed'],
-    fallbackColor: '#3b82f6'
-  },
-  {
     id: 'prompt-forge',
     title: 'PROMPT FORGE',
     role: 'System Architect',
