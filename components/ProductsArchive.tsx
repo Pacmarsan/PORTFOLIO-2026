@@ -17,6 +17,42 @@ export interface ProductData {
 
 const PRODUCTS: ProductData[] = [
   {
+    id: 'aurelion',
+    title: 'AURELION',
+    role: 'Sole Developer',
+    oneLiner: 'A luxurious timepiece showcase focusing on timeless engineering and precision.',
+    techStack: ['React', 'Tailwind'],
+    liveUrl: 'https://aurelion-watch-pieces.vercel.app/',
+    fallbackColor: '#0E0E0F'
+  },
+  {
+    id: 'vibecheck',
+    title: 'VIBECHECK',
+    role: 'Sole Developer',
+    oneLiner: 'A sentient glow engine designed to track and respond to the frequency of your thoughts.',
+    techStack: ['React', 'Tailwind'],
+    liveUrl: 'https://vibecheck-san.vercel.app/',
+    fallbackColor: '#0E0E13'
+  },
+  {
+    id: 'echoforge',
+    title: 'ECHO FORGE',
+    role: 'Sole Developer',
+    oneLiner: 'An intelligent conversation studio and story memory archive.',
+    techStack: ['React', 'Tailwind'],
+    liveUrl: 'https://echoforge-roan.vercel.app/',
+    fallbackColor: '#000000'
+  },
+  {
+    id: 'circely',
+    title: 'CIRCELY',
+    role: 'Sole Developer',
+    oneLiner: 'A single parent community platform built on trust, family, and community.',
+    techStack: ['React', 'Tailwind'],
+    liveUrl: 'https://circely.vercel.app/',
+    fallbackColor: '#000000'
+  },
+  {
     id: 'kinetic-footwear',
     title: 'KINETIC FOOTWEAR',
     role: '3D Web Engineer',
