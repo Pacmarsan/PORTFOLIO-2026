@@ -17,6 +17,15 @@ export interface ProductData {
 
 const PRODUCTS: ProductData[] = [
   {
+    id: 'agricore',
+    title: 'AGRICORE',
+    role: 'Designer',
+    oneLiner: 'The Agricultural Intelligence of Nigeria',
+    techStack: ['Figma'],
+    liveUrl: 'https://agricore.figma.site/',
+    fallbackColor: '#39FF14'
+  },
+  {
     id: 'aurelion',
     title: 'AURELION',
     role: 'Sole Developer',
